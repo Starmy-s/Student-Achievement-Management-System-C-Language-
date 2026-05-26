@@ -463,6 +463,9 @@ void read() {
  * @brief 退出函数，在退出前询问用户是否需要将数据导入文件，如果需要则将链表中的数据写入文件保存
  */
 void my_exit() {
+	if (head == tail) {
+		exit(0);
+	}
 	char choice;
 	printf("是否需要是否需要将数据导入文件(是 - y）");
 	if (scanf("%c", &choice) == 1) {
