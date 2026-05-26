@@ -1,29 +1,7 @@
 #include "student.h"
 
 
-Student* head, *tail;
-int operation_id;
 
-void init() {
-	head = (Student*)malloc(sizeof(Student));
-	head->next = NULL;
-	tail = head;
-}
-
-void print()
-{
-	printf("学生成绩管理信息系统\n");
-	printf("  1.初始化数据\n");
-	printf("  2.新增数据\n");
-	printf("  3.删除数据\n");
-	printf("  4.查找数据\n");
-	printf("  5.导出数据\n");
-	printf("  6.导入数据\n");
-	printf("  7.浏览数据\n");
-	printf("  0.退出系统\n\n");
-	printf("请选择你要使用的功能\n");
-	scanf_s("%d", &operation_id);
-}
 
 void create() {
 	FILE* fp = fopen("students.dat", "rb");
@@ -120,6 +98,27 @@ void my_exit() {
 	}
 	exit(0);
 }
+
+/*
+* 打印主菜单
+* 将全局变量修改为参数传递
+*/
+void print_menu(int *operation_id)
+{
+	// 情况
+	system("cls");
+	printf("========================================\n");
+	printf("       学生成绩管理信息系统 v1.0        \n");
+	printf("========================================\n");
+	printf("  [1] 初始化数据    [5] 导出数据        \n");
+	printf("  [2] 新增数据      [6] 导入数据        \n");
+	printf("  [3] 删除数据      [7] 浏览数据        \n");
+	printf("  [4] 查找数据      [0] 退出系统        \n");
+	printf("========================================\n");
+	printf(" 清选择你要使用的功能 [0-7]: ");
+	scanf_s("%d", &operation_id);
+}
+
 void mainpage()
 {
 	print();
@@ -139,7 +138,13 @@ void mainpage()
 
 
 int main() {
-	init();
+	Student* head, * tail;
+	int operation_id;
+
+	head = (Student*)malloc(sizeof(Student));
+	head->next = NULL;
+	tail = head;
+
 	mainpage();
 	return 0;
 }

@@ -14,7 +14,4 @@ typedef struct Student {
 	struct Student* next;
 } Student;
 
-extern Student* head;
-extern int student_count;
-
 #endif
