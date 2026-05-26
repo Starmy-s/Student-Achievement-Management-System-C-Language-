@@ -145,14 +145,14 @@ void find_student_by_num() {
 	do {
 		int num = get_int("请输入要查找的学号：");
 		int is_find_num = 0;
-		Student* current_stucent = head->next;
-		while (current_stucent != NULL) {
-			if (current_stucent->num == num) {
+		Student* current_student = head->next;
+		while (current_student != NULL) {
+			if (current_student->num == num) {
 				is_find_num = 1;
-				print_student(current_stucent);
+				print_student(current_student);
 				break;
 			}
-			current_stucent = current_stucent->next;
+			current_student = current_student->next;
 		}
 		if (is_find_num == 0) {
 			printf("没有这个学号的学生！\n");
@@ -386,6 +386,7 @@ void put() {
 	}
 	Student* current_student = head->next;
 	while (current_student != NULL) {
+		// TODO: 最好不要存next指针
 		fwrite(current_student, sizeof(Student), 1, fp);
 		current_student = current_student->next;
 	}
