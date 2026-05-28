@@ -1,5 +1,5 @@
-/**
- * @brief Ñ§Éú³É¼¨¹ÜÀíÏµÍ³µÄÖ÷³ÌĞòÈë¿Ú
+ï»¿/**
+ * @brief å­¦ç”Ÿæˆç»©ç®¡ç†ç³»ç»Ÿçš„ä¸»ç¨‹åºå…¥å£
  * @details 
  * @date 2026-05-26
  */
@@ -16,85 +16,85 @@ Student* head, * tail;
 
 
 /**
- * @brief Çå³ıÊäÈëÁ÷²ĞÁôÊı¾İ
+ * @brief æ¸…é™¤è¾“å…¥æµæ®‹ç•™æ•°æ®
  */
 void clear_buffer() {
 	int c;
-	// TODO: Èç¹û»º³åÇøÊ²Ã´¶¼Ã»ÓĞ£¬»¹µÃÊÖ¶¯´òÒ»¸ö»Ø³µ
+	// TODO: å¦‚æœç¼“å†²åŒºä»€ä¹ˆéƒ½æ²¡æœ‰ï¼Œè¿˜å¾—æ‰‹åŠ¨æ‰“ä¸€ä¸ªå›è½¦
 	while ((c = getchar()) != '\n' && c != EOF);
 }
 
 /**
- * @brief Êä³öÑ§ÉúĞÅÏ¢µÄº¯Êı
- * @param student ÒªÊä³öµÄÑ§ÉúĞÅÏ¢Ö¸Õë£¬Ê¹ÓÃÇ°¼ì²éstudentÊÇ·ñÎªNULL
+ * @brief è¾“å‡ºå­¦ç”Ÿä¿¡æ¯çš„å‡½æ•°
+ * @param student è¦è¾“å‡ºçš„å­¦ç”Ÿä¿¡æ¯æŒ‡é’ˆï¼Œä½¿ç”¨å‰æ£€æŸ¥studentæ˜¯å¦ä¸ºNULL
  */
 void print_student(const Student* student) {
-	printf("Ñ§ºÅ:%d\n", student->num);
-	printf("ĞÕÃû:%s\n", student->name);
+	printf("å­¦å·:%d\n", student->num);
+	printf("å§“å:%s\n", student->name);
 	for (int i = 0; i < 3; i++) {
-		printf("¿ÆÄ¿[%d]:%d\n", i + 1, student->score[i]);
+		printf("ç§‘ç›®[%d]:%d\n", i + 1, student->score[i]);
 	}
 }
 
 
 /**
- * @brief ¶ÁÈ¡ÕûÊıÊäÈëµÄº¯Êı£¬È·±£ÓÃ»§ÊäÈëµÄÊÇÒ»¸öÓĞĞ§µÄÕûÊı
- * @param prompt ÌáÊ¾ÓÃ»§ÊäÈëµÄ×Ö·û´®
- * @return ¶ÁÈ¡µ½µÄÕûÊıÖµ
- * @note Èç¹ûÓÃ»§ÊäÈëÎŞĞ§£¬»áÌáÊ¾ÖØĞÂÊäÈë£¬Ö±µ½ÊäÈëÒ»¸öÓĞĞ§µÄÕûÊıÎªÖ¹
+ * @brief è¯»å–æ•´æ•°è¾“å…¥çš„å‡½æ•°ï¼Œç¡®ä¿ç”¨æˆ·è¾“å…¥çš„æ˜¯ä¸€ä¸ªæœ‰æ•ˆçš„æ•´æ•°
+ * @param prompt æç¤ºç”¨æˆ·è¾“å…¥çš„å­—ç¬¦ä¸²
+ * @return è¯»å–åˆ°çš„æ•´æ•°å€¼
+ * @note å¦‚æœç”¨æˆ·è¾“å…¥æ— æ•ˆï¼Œä¼šæç¤ºé‡æ–°è¾“å…¥ï¼Œç›´åˆ°è¾“å…¥ä¸€ä¸ªæœ‰æ•ˆçš„æ•´æ•°ä¸ºæ­¢
  */
 int get_int(const char* prompt, int min, int max) {
-	// TODO: ÊäÈëµÄÊÇĞ¡ÊıÔõÃ´°ì
+	// TODO: è¾“å…¥çš„æ˜¯å°æ•°æ€ä¹ˆåŠ
 	int value;
 	while (1) {
 		printf(prompt); 
 		if (scanf("%d", &value) == 1) {
 			clear_buffer();
 			if (value < min) {
-				fprintf(stderr, "ÊäÈëµÄÊıÖÁÉÙÎª%d\n", min);
+				fprintf(stderr, "è¾“å…¥çš„æ•°è‡³å°‘ä¸º%d\n", min);
 				continue;
 			}
 			else if (value > max) {
-				fprintf(stderr, "ÊäÈëµÄÊı×î´óÎª%d\n", max);
+				fprintf(stderr, "è¾“å…¥çš„æ•°æœ€å¤§ä¸º%d\n", max);
 				continue;
 			}
 			return value;
 		}
-		fprintf(stderr, "ÇëÊäÈëÒ»¸öÕûÊı\n");
+		fprintf(stderr, "è¯·è¾“å…¥ä¸€ä¸ªæ•´æ•°\n");
 		clear_buffer();
 	}
 }
 
 
 /**
- * @brief ÊäÈëÑ§ÉúĞÅÏ¢µÄº¯Êı
- * @param student ÒªÊäÈëµÄÑ§ÉúĞÅÏ¢Ö¸Õë£¬Ê¹ÓÃÇ°¼ì²éstudentÊÇ·ñÎªNULL
+ * @brief è¾“å…¥å­¦ç”Ÿä¿¡æ¯çš„å‡½æ•°
+ * @param student è¦è¾“å…¥çš„å­¦ç”Ÿä¿¡æ¯æŒ‡é’ˆï¼Œä½¿ç”¨å‰æ£€æŸ¥studentæ˜¯å¦ä¸ºNULL
  */
 void input_student(Student* student) {
 
-	student->num = get_int("Ñ§ºÅ:", 0, INT_MAX);
+	student->num = get_int("å­¦å·:", 0, INT_MAX);
 
-	printf("ĞÕÃû:");
+	printf("å§“å:");
 	if (scanf("%19s", student->name) == 1) {
 		clear_buffer();
 	}
 	else {
-		printf("¶ÁÈ¡ĞÕÃûÊ§°Ü£¬ÇåÖØÊÔ£¡\n");
+		printf("è¯»å–å§“åå¤±è´¥ï¼Œæ¸…é‡è¯•ï¼\n");
 		clear_buffer();
 		return;
 	}
 
 	for (int i = 0; i < 3; i++) {
 		char prompt[20] = {0};
-		sprintf(prompt, "¿ÆÄ¿[%d]:", i + 1);
+		sprintf(prompt, "ç§‘ç›®[%d]:", i + 1);
 		student->score[i] = get_int(prompt, 0, 100);
 	}
 }
 
 
 /**
- * @brief Á´±íÎ²ºóÌí¼Ó½áµã
- * @param student ÒªÌí¼ÓµÄÑ§ÉúĞÅÏ¢Ö¸Õë£¬Ê¹ÓÃÇ°¼ì²éstudentÊÇ·ñÎªNULL
+ * @brief é“¾è¡¨å°¾åæ·»åŠ ç»“ç‚¹
+ * @param student è¦æ·»åŠ çš„å­¦ç”Ÿä¿¡æ¯æŒ‡é’ˆï¼Œä½¿ç”¨å‰æ£€æŸ¥studentæ˜¯å¦ä¸ºNULL
  */
 void append_student(Student* student){
 	student->next = NULL;
@@ -104,15 +104,15 @@ void append_student(Student* student){
 
 
 /**
- * @brief Êı¾İ³õÊ¼»¯º¯Êı
+ * @brief æ•°æ®åˆå§‹åŒ–å‡½æ•°
  */
 void create() {
-	// TODO: ÔõÃ´±£Ö¤²»»á³öÏÖÏàÍ¬µÄÑ§ºÅ
-	int student_count = get_int("ÊäÈëÑ§ÉúµÄ¸öÊı£º", 0, INT_MAX);
+	// TODO: æ€ä¹ˆä¿è¯ä¸ä¼šå‡ºç°ç›¸åŒçš„å­¦å·
+	int student_count = get_int("è¾“å…¥å­¦ç”Ÿçš„ä¸ªæ•°ï¼š", 0, INT_MAX);
 	for(int i = 0; i < student_count; i++) {
 		Student* current_student = (Student*)malloc(sizeof(Student));
 		if (current_student == NULL) {
-			printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡\n");
+			printf("å†…å­˜åˆ†é…å¤±è´¥ï¼\n");
 			return;
 		}
 		input_student(current_student);
@@ -122,24 +122,24 @@ void create() {
 
 
 /**
- * @brief Ìí¼ÓÑ§ÉúÊı¾İµÄº¯Êı£¬ÓÃ»§ÊäÈëÑ§ÉúĞÅÏ¢²¢½«ÆäÌí¼Óµ½Á´±íÄ©Î²
+ * @brief æ·»åŠ å­¦ç”Ÿæ•°æ®çš„å‡½æ•°ï¼Œç”¨æˆ·è¾“å…¥å­¦ç”Ÿä¿¡æ¯å¹¶å°†å…¶æ·»åŠ åˆ°é“¾è¡¨æœ«å°¾
  */
 void add() {
 	char choice;
 	do {
 		Student* current_student = (Student*)malloc(sizeof(Student));
 		if (current_student == NULL) {
-			printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡\n");
+			printf("å†…å­˜åˆ†é…å¤±è´¥ï¼\n");
 			return;
 		}
 		input_student(current_student);
 		append_student(current_student);
-		printf("ÊÇ·ñ¼ÌĞøÌí¼ÓÊı¾İ£¿(y/n)");
+		printf("æ˜¯å¦ç»§ç»­æ·»åŠ æ•°æ®ï¼Ÿ(y/n)");
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("ÊäÈëÎŞĞ§£¬ÇåÖØÊÔ£¡\n");
+			printf("è¾“å…¥æ— æ•ˆï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
@@ -147,12 +147,12 @@ void add() {
 }
 
 /*
-* @brief °´ÕÕÑ§ºÅ²éÕÒÑ§ÉúĞÅÏ¢µÄº¯Êı£¬ÓÃ»§ÊäÈëÑ§ºÅ£¬ÕÒµ½¶ÔÓ¦Ñ§Éú²¢ÏÔÊ¾ÆäĞÅÏ¢
+* @brief æŒ‰ç…§å­¦å·æŸ¥æ‰¾å­¦ç”Ÿä¿¡æ¯çš„å‡½æ•°ï¼Œç”¨æˆ·è¾“å…¥å­¦å·ï¼Œæ‰¾åˆ°å¯¹åº”å­¦ç”Ÿå¹¶æ˜¾ç¤ºå…¶ä¿¡æ¯
 */
 void find_student_by_num() {
 	char choice;
 	do {
-		int num = get_int("ÇëÊäÈëÒª²éÕÒµÄÑ§ºÅ£º", 0, INT_MAX);
+		int num = get_int("è¯·è¾“å…¥è¦æŸ¥æ‰¾çš„å­¦å·ï¼š", 0, INT_MAX);
 		int is_find_num = 0;
 		Student* current_student = head->next;
 		while (current_student != NULL) {
@@ -164,14 +164,14 @@ void find_student_by_num() {
 			current_student = current_student->next;
 		}
 		if (is_find_num == 0) {
-			printf("Ã»ÓĞÕâ¸öÑ§ºÅµÄÑ§Éú£¡\n");
+			printf("æ²¡æœ‰è¿™ä¸ªå­¦å·çš„å­¦ç”Ÿï¼\n");
 		}
-		printf("ÄãÏë¼ÌĞø²éÕÒÊı¾İÂğ£¿<ÊÇ-y>:");
+		printf("ä½ æƒ³ç»§ç»­æŸ¥æ‰¾æ•°æ®å—ï¼Ÿ<æ˜¯-y>:");
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("ÊäÈëÎŞĞ§£¬ÇåÖØÊÔ£¡\n");
+			printf("è¾“å…¥æ— æ•ˆï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
@@ -179,18 +179,18 @@ void find_student_by_num() {
 }
 
 /*
-* @brief °´ÕÕĞÕÃû²éÕÒÑ§ÉúĞÅÏ¢µÄº¯Êı£¬ÓÃ»§ÊäÈëĞÕÃû£¬ÕÒµ½¶ÔÓ¦Ñ§Éú²¢ÏÔÊ¾ÆäĞÅÏ¢£¬×¢Òâ¿ÉÄÜ´æÔÚÍ¬ÃûÑ§Éú
+* @brief æŒ‰ç…§å§“åæŸ¥æ‰¾å­¦ç”Ÿä¿¡æ¯çš„å‡½æ•°ï¼Œç”¨æˆ·è¾“å…¥å§“åï¼Œæ‰¾åˆ°å¯¹åº”å­¦ç”Ÿå¹¶æ˜¾ç¤ºå…¶ä¿¡æ¯ï¼Œæ³¨æ„å¯èƒ½å­˜åœ¨åŒåå­¦ç”Ÿ
 */
 void find_student_by_name() {
 	char choice;
 	do {
 		char name[20] = {0};
-		printf("ÇëÊäÈëÒª²éÕÒµÄĞÕÃû:");
+		printf("è¯·è¾“å…¥è¦æŸ¥æ‰¾çš„å§“å:");
 		if (scanf("%19s", name) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("¶ÁÈ¡ĞÕÃûÊ§°Ü£¬ÇåÖØÊÔ£¡\n");
+			printf("è¯»å–å§“åå¤±è´¥ï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
@@ -204,33 +204,33 @@ void find_student_by_name() {
 			current_student = current_student->next;
 		}
 		if (find_count == 0) {
-			printf("Ã»ÓĞÕâ¸öĞÕÃûµÄÑ§Éú£¡\n");
+			printf("æ²¡æœ‰è¿™ä¸ªå§“åçš„å­¦ç”Ÿï¼\n");
 		}
-		printf("ÄãÏë¼ÌĞø²éÕÒÊı¾İÂğ£¿<ÊÇ-y>:");
+		printf("ä½ æƒ³ç»§ç»­æŸ¥æ‰¾æ•°æ®å—ï¼Ÿ<æ˜¯-y>:");
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("ÊäÈëÎŞĞ§£¬ÇåÖØÊÔ£¡\n");
+			printf("è¾“å…¥æ— æ•ˆï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
 	} while (choice == 'y' || choice == 'Y');
 }
 
-// TODO: ¿ÉÒÔ¿¼ÂÇÓÃË«ÏòÁ´±íÓÅ»¯
+// TODO: å¯ä»¥è€ƒè™‘ç”¨åŒå‘é“¾è¡¨ä¼˜åŒ–
 /**
- * @brief °´ÕÕÑ§ºÅÉ¾³ıÑ§ÉúĞÅÏ¢µÄº¯Êı£¬ÓÃ»§ÊäÈëÑ§ºÅ£¬ÕÒµ½¶ÔÓ¦Ñ§Éú²¢´ÓÁ´±íÖĞÉ¾³ı
+ * @brief æŒ‰ç…§å­¦å·åˆ é™¤å­¦ç”Ÿä¿¡æ¯çš„å‡½æ•°ï¼Œç”¨æˆ·è¾“å…¥å­¦å·ï¼Œæ‰¾åˆ°å¯¹åº”å­¦ç”Ÿå¹¶ä»é“¾è¡¨ä¸­åˆ é™¤
  */
 void del_by_num() {
 	char choice;
 	do {
 		if (head == tail) {
-			printf("Á´±íÎª¿Õ£¬²»ÄÜÉ¾³ıÊı¾İ¡£\n");
-			printf("ÇëÏÈÊ¹ÓÃ³õÊ¼»¯¹¦ÄÜ¡¢ĞÂÔöÊı¾İ¹¦ÄÜ»òµ¼ÈëÊı¾İ¹¦ÄÜ£¡\n");
+			printf("é“¾è¡¨ä¸ºç©ºï¼Œä¸èƒ½åˆ é™¤æ•°æ®ã€‚\n");
+			printf("è¯·å…ˆä½¿ç”¨åˆå§‹åŒ–åŠŸèƒ½ã€æ–°å¢æ•°æ®åŠŸèƒ½æˆ–å¯¼å…¥æ•°æ®åŠŸèƒ½ï¼\n");
 			return;
 		}
-		int num = get_int("ÇëÊäÈëÒªÉ¾³ıµÄÑ§ºÅ£º", 0, INT_MAX);
+		int num = get_int("è¯·è¾“å…¥è¦åˆ é™¤çš„å­¦å·ï¼š", 0, INT_MAX);
 		int has_del = 0;
 		Student* current_student = head->next, * prev_student = head;
 		while (current_student != NULL) {
@@ -247,14 +247,14 @@ void del_by_num() {
 			current_student = current_student->next;
 		}
 		if (!has_del) {
-			printf("Ã»ÓĞÕâ¸öÑ§ºÅµÄÑ§Éú£¡\n");
+			printf("æ²¡æœ‰è¿™ä¸ªå­¦å·çš„å­¦ç”Ÿï¼\n");
 		}
-		printf("ÄãÏë¼ÌĞøÉ¾³ıÊı¾İÂğ£¿<ÊÇ-y>:");
+		printf("ä½ æƒ³ç»§ç»­åˆ é™¤æ•°æ®å—ï¼Ÿ<æ˜¯-y>:");
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("ÊäÈëÎŞĞ§£¬ÇåÖØÊÔ£¡\n");
+			printf("è¾“å…¥æ— æ•ˆï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
@@ -263,24 +263,24 @@ void del_by_num() {
 }
 
 /**
- * @brief °´Ãû×ÖÉ¾³ıÑ§ÉúĞÅÏ¢µÄº¯Êı£¬ÓÃ»§ÊäÈëĞÕÃû£¬ÕÒµ½¶ÔÓ¦Ñ§Éú²¢´ÓÁ´±íÖĞÉ¾³ı£¬×¢Òâ¿ÉÄÜ´æÔÚÍ¬ÃûÑ§Éú
+ * @brief æŒ‰åå­—åˆ é™¤å­¦ç”Ÿä¿¡æ¯çš„å‡½æ•°ï¼Œç”¨æˆ·è¾“å…¥å§“åï¼Œæ‰¾åˆ°å¯¹åº”å­¦ç”Ÿå¹¶ä»é“¾è¡¨ä¸­åˆ é™¤ï¼Œæ³¨æ„å¯èƒ½å­˜åœ¨åŒåå­¦ç”Ÿ
  */
 void del_by_name() {
 	char choice;
 	do {
-		// ÒòÎªÒ»Ö±ÔÚÉ¾³ı£¬ËùÓĞÃ¿´Î¶¼µÃ¼ì²é
+		// å› ä¸ºä¸€ç›´åœ¨åˆ é™¤ï¼Œæ‰€æœ‰æ¯æ¬¡éƒ½å¾—æ£€æŸ¥
 		if (head == tail) {
-			printf("Á´±íÎª¿Õ£¬²»ÄÜÉ¾³ıÊı¾İ¡£\n");
-			printf("ÇëÏÈÊ¹ÓÃ³õÊ¼»¯¹¦ÄÜ¡¢ĞÂÔöÊı¾İ¹¦ÄÜ»òµ¼ÈëÊı¾İ¹¦ÄÜ£¡\n");
+			printf("é“¾è¡¨ä¸ºç©ºï¼Œä¸èƒ½åˆ é™¤æ•°æ®ã€‚\n");
+			printf("è¯·å…ˆä½¿ç”¨åˆå§‹åŒ–åŠŸèƒ½ã€æ–°å¢æ•°æ®åŠŸèƒ½æˆ–å¯¼å…¥æ•°æ®åŠŸèƒ½ï¼\n");
 			return;
 		}
 		char name[20] = { 0 };
-		printf("ÇëÊäÈëÒªÉ¾³ıµÄĞÕÃû:");
+		printf("è¯·è¾“å…¥è¦åˆ é™¤çš„å§“å:");
 		if (scanf("%19s", name) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("¶ÁÈ¡ĞÕÃûÊ§°Ü£¬ÇåÖØÊÔ£¡\n");
+			printf("è¯»å–å§“åå¤±è´¥ï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
@@ -293,7 +293,7 @@ void del_by_name() {
 					tail = prev_student;
 				}
 				free(current_student);
-				// ÌØÊâ´¦ÀíÒ»ÏÂ£¬Ö»¸üĞÂcurrent_student£¬²»¸üĞÂprev_student
+				// ç‰¹æ®Šå¤„ç†ä¸€ä¸‹ï¼Œåªæ›´æ–°current_studentï¼Œä¸æ›´æ–°prev_student
 				current_student = prev_student->next;
 				del_count++;
 				continue;
@@ -302,17 +302,17 @@ void del_by_name() {
 			current_student = current_student->next;
 		}
 		if (del_count == 0) {
-			printf("Ã»ÓĞÕâ¸öĞÕÃûµÄÑ§Éú£¡\n");
+			printf("æ²¡æœ‰è¿™ä¸ªå§“åçš„å­¦ç”Ÿï¼\n");
 		}
 		else {
-			printf("±¾´Î¹²É¾³ıÁË%d¸öÑ§ÉúĞÅÏ¢\n", del_count);
+			printf("æœ¬æ¬¡å…±åˆ é™¤äº†%dä¸ªå­¦ç”Ÿä¿¡æ¯\n", del_count);
 		}
-		printf("ÄãÏë¼ÌĞøÉ¾³ıÊı¾İÂğ£¿<ÊÇ-y>:");
+		printf("ä½ æƒ³ç»§ç»­åˆ é™¤æ•°æ®å—ï¼Ÿ<æ˜¯-y>:");
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("ÊäÈëÎŞĞ§£¬ÇåÖØÊÔ£¡\n");
+			printf("è¾“å…¥æ— æ•ˆï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
@@ -320,54 +320,54 @@ void del_by_name() {
 }
 
 /**
- * @brief Êı¾İÉ¾³ıº¯Êı£¬ÓÃ»§ÊäÈëÑ§ºÅ£¬ÕÒµ½¶ÔÓ¦Ñ§Éú²¢´ÓÁ´±íÖĞÉ¾³ı
+ * @brief æ•°æ®åˆ é™¤å‡½æ•°ï¼Œç”¨æˆ·è¾“å…¥å­¦å·ï¼Œæ‰¾åˆ°å¯¹åº”å­¦ç”Ÿå¹¶ä»é“¾è¡¨ä¸­åˆ é™¤
  */
 void del() {
 	if(head == tail) {
-		printf("Á´±íÎª¿Õ£¬²»ÄÜÉ¾³ıÊı¾İ¡£\n");
-		printf("ÇëÏÈÊ¹ÓÃ³õÊ¼»¯¹¦ÄÜ¡¢ĞÂÔöÊı¾İ¹¦ÄÜ»òµ¼ÈëÊı¾İ¹¦ÄÜ£¡\n");
+		printf("é“¾è¡¨ä¸ºç©ºï¼Œä¸èƒ½åˆ é™¤æ•°æ®ã€‚\n");
+		printf("è¯·å…ˆä½¿ç”¨åˆå§‹åŒ–åŠŸèƒ½ã€æ–°å¢æ•°æ®åŠŸèƒ½æˆ–å¯¼å…¥æ•°æ®åŠŸèƒ½ï¼\n");
 		return;
 	}
-	printf("Êı¾İÉ¾³ı ×Ó²Ëµ¥\n");
-	printf(" 1 °´Ñ§ºÅÉ¾³ı\n");
-	printf(" 2 °´ĞÕÃûÉ¾³ı\n");
-	printf(" 0 ·µ»ØÏµÍ³Ö÷²Ëµ¥\n");
-	int choice = get_int("ÇëÊäÈëÄúµÄÑ¡Ôñ£º", 0, INT_MAX);
+	printf("æ•°æ®åˆ é™¤ å­èœå•\n");
+	printf(" 1 æŒ‰å­¦å·åˆ é™¤\n");
+	printf(" 2 æŒ‰å§“ååˆ é™¤\n");
+	printf(" 0 è¿”å›ç³»ç»Ÿä¸»èœå•\n");
+	int choice = get_int("è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š", 0, INT_MAX);
 	switch (choice)
 	{
 	case 1:del_by_num(); break;
 	case 2:del_by_name(); break;
 	case 0:return; break;
-	default:printf("²»ÊÇÓĞĞ§µÄ¹¦ÄÜ£¬ÇëÖØĞÂÑ¡Ôñ\n");
+	default:printf("ä¸æ˜¯æœ‰æ•ˆçš„åŠŸèƒ½ï¼Œè¯·é‡æ–°é€‰æ‹©\n");
 	}
 }
 
 
 /**
- * @brief Êı¾İ²éÕÒº¯Êı£¬ÓÃ»§ÊäÈëÑ§ºÅ£¬ÕÒµ½¶ÔÓ¦Ñ§Éú²¢ÏÔÊ¾ÆäĞÅÏ¢
+ * @brief æ•°æ®æŸ¥æ‰¾å‡½æ•°ï¼Œç”¨æˆ·è¾“å…¥å­¦å·ï¼Œæ‰¾åˆ°å¯¹åº”å­¦ç”Ÿå¹¶æ˜¾ç¤ºå…¶ä¿¡æ¯
  */
 void find() {
 	if (head == tail) {
-		printf("Á´±íÎª¿Õ£¬²»ÄÜ²éÕÒÊı¾İ¡£\n");
-		printf("ÇëÏÈÊ¹ÓÃ³õÊ¼»¯¹¦ÄÜ¡¢ĞÂÔöÊı¾İ¹¦ÄÜ»òµ¼ÈëÊı¾İ¹¦ÄÜ£¡\n");
+		printf("é“¾è¡¨ä¸ºç©ºï¼Œä¸èƒ½æŸ¥æ‰¾æ•°æ®ã€‚\n");
+		printf("è¯·å…ˆä½¿ç”¨åˆå§‹åŒ–åŠŸèƒ½ã€æ–°å¢æ•°æ®åŠŸèƒ½æˆ–å¯¼å…¥æ•°æ®åŠŸèƒ½ï¼\n");
 		return;
 	}
-	printf("Êı¾İ²éÑ¯ ×Ó²Ëµ¥\n");
-	printf(" 1 °´Ñ§ºÅ²éÑ¯\n");
-	printf(" 2 °´ĞÕÃû²éÑ¯\n");
-	printf(" 0 ·µ»ØÏµÍ³Ö÷²Ëµ¥\n");
-	int choice = get_int("ÇëÊäÈëÄúµÄÑ¡Ôñ£º", 0, INT_MAX);
+	printf("æ•°æ®æŸ¥è¯¢ å­èœå•\n");
+	printf(" 1 æŒ‰å­¦å·æŸ¥è¯¢\n");
+	printf(" 2 æŒ‰å§“åæŸ¥è¯¢\n");
+	printf(" 0 è¿”å›ç³»ç»Ÿä¸»èœå•\n");
+	int choice = get_int("è¯·è¾“å…¥æ‚¨çš„é€‰æ‹©ï¼š", 0, INT_MAX);
 	switch (choice)
 	{
 	case 1:find_student_by_num(); break;
 	case 2:find_student_by_name(); break;
 	case 0:return; break;
-	default:printf("²»ÊÇÓĞĞ§µÄ¹¦ÄÜ£¬ÇëÖØĞÂÑ¡Ôñ\n");
+	default:printf("ä¸æ˜¯æœ‰æ•ˆçš„åŠŸèƒ½ï¼Œè¯·é‡æ–°é€‰æ‹©\n");
 	}
 }
 
 /*
-* @brief Çå¿ÕÁ´±íº¯Êı£¬ÊÍ·ÅÁ´±íÖĞËùÓĞÑ§ÉúĞÅÏ¢µÄÄÚ´æ£¬²¢½«Á´±íÖØÖÃÎª¿Õ×´Ì¬
+* @brief æ¸…ç©ºé“¾è¡¨å‡½æ•°ï¼Œé‡Šæ”¾é“¾è¡¨ä¸­æ‰€æœ‰å­¦ç”Ÿä¿¡æ¯çš„å†…å­˜ï¼Œå¹¶å°†é“¾è¡¨é‡ç½®ä¸ºç©ºçŠ¶æ€
 */
 void clear_list() {
 	Student* current_student = head->next;
@@ -381,43 +381,43 @@ void clear_list() {
 }	
 
 /**
- * @brief Êı¾İµ¼³öº¯Êı£¬½«Á´±íÖĞµÄÑ§ÉúÊı¾İĞ´ÈëÎÄ¼ş±£´æ
+ * @brief æ•°æ®å¯¼å‡ºå‡½æ•°ï¼Œå°†é“¾è¡¨ä¸­çš„å­¦ç”Ÿæ•°æ®å†™å…¥æ–‡ä»¶ä¿å­˜
  */
 void put() {
 	if(head == tail){
-		printf("Á´±íÎª¿Õ£¬²»ĞèÒªµ¼³öÊı¾İ£¡\n");
+		printf("é“¾è¡¨ä¸ºç©ºï¼Œä¸éœ€è¦å¯¼å‡ºæ•°æ®ï¼\n");
 		return;
 	}
 	FILE* fp = fopen("students.dat", "wb");
 	if (fp == NULL) {
-		printf("ÎŞ·¨´ò¿ªÎÄ¼ş½øĞĞ±£´æ£¡\n");
+		printf("æ— æ³•æ‰“å¼€æ–‡ä»¶è¿›è¡Œä¿å­˜ï¼\n");
 		return;
 	}
 	Student* current_student = head->next;
 	while (current_student != NULL) {
-		// TODO: ×îºÃ²»Òª´ænextÖ¸Õë
+		// TODO: æœ€å¥½ä¸è¦å­˜nextæŒ‡é’ˆ
 		fwrite(current_student, sizeof(Student), 1, fp);
 		current_student = current_student->next;
 	}
 	fclose(fp);
-	printf("Êı¾İÒÑ³É¹¦±£´æµ½ÎÄ¼ş£¡\n");
+	printf("æ•°æ®å·²æˆåŠŸä¿å­˜åˆ°æ–‡ä»¶ï¼\n");
 	clear_list();
 }
 
 
 /**
- * @brief Êı¾İµ¼Èëº¯Êı£¬´ÓÎÄ¼şÖĞ¶ÁÈ¡Ñ§ÉúÊı¾İ²¢¹¹½¨Á´±í£¬×¢Òâ±ÜÃâÖØ¸´µ¼Èë
+ * @brief æ•°æ®å¯¼å…¥å‡½æ•°ï¼Œä»æ–‡ä»¶ä¸­è¯»å–å­¦ç”Ÿæ•°æ®å¹¶æ„å»ºé“¾è¡¨ï¼Œæ³¨æ„é¿å…é‡å¤å¯¼å…¥
  */
 void get() {
 	if (head != tail) {
-		printf("Á´±íÖĞÓĞÊı¾İ£¬µ¼ÈëÊı¾İºó£¬Ô­Á´±íÖĞµÄÊı¾İ½«¶ªÊ§!\n");
-		printf("ÊÇ·ñ¼ÌĞøµ¼ÈëÊı¾İ£¿(ÊÇ - y£©:");
+		printf("é“¾è¡¨ä¸­æœ‰æ•°æ®ï¼Œå¯¼å…¥æ•°æ®åï¼ŒåŸé“¾è¡¨ä¸­çš„æ•°æ®å°†ä¸¢å¤±!\n");
+		printf("æ˜¯å¦ç»§ç»­å¯¼å…¥æ•°æ®ï¼Ÿ(æ˜¯ - yï¼‰:");
 		char choice;
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
 		}
 		else {
-			printf("ÊäÈëÎŞĞ§£¬ÇåÖØÊÔ£¡\n");
+			printf("è¾“å…¥æ— æ•ˆï¼Œæ¸…é‡è¯•ï¼\n");
 			clear_buffer();
 			return;
 		}
@@ -430,14 +430,14 @@ void get() {
 	}
 	FILE* fp = fopen("students.dat", "rb");
 	if (fp == NULL) {
-		printf("Ã»ÓĞÕÒµ½Êı¾İ£¬ÇåÏÈ´´½¨Êı¾İ\n");
+		printf("æ²¡æœ‰æ‰¾åˆ°æ•°æ®ï¼Œæ¸…å…ˆåˆ›å»ºæ•°æ®\n");
 		return;
 	}
 
 	while (1) {
 		Student* current_student = (Student*)malloc(sizeof(Student));
 		if(current_student == NULL) {
-			printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡\n");
+			printf("å†…å­˜åˆ†é…å¤±è´¥ï¼\n");
 			fclose(fp);
 			return;
 		}
@@ -454,11 +454,11 @@ void get() {
 
 
 /**
- * @brief Êı¾İä¯ÀÀº¯Êı£¬ÏÔÊ¾Á´±íÖĞËùÓĞÑ§ÉúµÄĞÅÏ¢
+ * @brief æ•°æ®æµè§ˆå‡½æ•°ï¼Œæ˜¾ç¤ºé“¾è¡¨ä¸­æ‰€æœ‰å­¦ç”Ÿçš„ä¿¡æ¯
  */
 void read() {
 	if(head == tail) {
-		printf("Á´±íÎª¿Õ£¬Ã»ÓĞÊı¾İ¿ÉÒÔä¯ÀÀ£¡\n");
+		printf("é“¾è¡¨ä¸ºç©ºï¼Œæ²¡æœ‰æ•°æ®å¯ä»¥æµè§ˆï¼\n");
 		return;
 	}
 	Student* current_student = head->next;
@@ -469,19 +469,19 @@ void read() {
 }
 
 /**
- * @brief ÍË³öº¯Êı£¬ÔÚÍË³öÇ°Ñ¯ÎÊÓÃ»§ÊÇ·ñĞèÒª½«Êı¾İµ¼ÈëÎÄ¼ş£¬Èç¹ûĞèÒªÔò½«Á´±íÖĞµÄÊı¾İĞ´ÈëÎÄ¼ş±£´æ
+ * @brief é€€å‡ºå‡½æ•°ï¼Œåœ¨é€€å‡ºå‰è¯¢é—®ç”¨æˆ·æ˜¯å¦éœ€è¦å°†æ•°æ®å¯¼å…¥æ–‡ä»¶ï¼Œå¦‚æœéœ€è¦åˆ™å°†é“¾è¡¨ä¸­çš„æ•°æ®å†™å…¥æ–‡ä»¶ä¿å­˜
  */
 void my_exit() {
 	if (head == tail) {
 		exit(0);
 	}
 	char choice;
-	printf("ÊÇ·ñĞèÒªÊÇ·ñĞèÒª½«Êı¾İµ¼ÈëÎÄ¼ş(ÊÇ - y£©");
+	printf("æ˜¯å¦éœ€è¦æ˜¯å¦éœ€è¦å°†æ•°æ®å¯¼å…¥æ–‡ä»¶(æ˜¯ - yï¼‰");
 	if (scanf("%c", &choice) == 1) {
 		clear_buffer();
 	}
 	else {
-		printf("ÊäÈëÎŞĞ§£¬ÇåÖØÊÔ£¡\n");
+		printf("è¾“å…¥æ— æ•ˆï¼Œæ¸…é‡è¯•ï¼\n");
 		clear_buffer();
 		return;
 	}
@@ -492,26 +492,26 @@ void my_exit() {
 }
 
 /**
- * @brief ´òÓ¡Ö÷²Ëµ¥
- * @param choice_ptr ¹¦ÄÜÑ¡ÔñµÄ±äÁ¿µØÖ·£¬ÓÃ»§ÊäÈëºó»áĞŞ¸Ä¸Ã±äÁ¿µÄÖµ
+ * @brief æ‰“å°ä¸»èœå•
+ * @param choice_ptr åŠŸèƒ½é€‰æ‹©çš„å˜é‡åœ°å€ï¼Œç”¨æˆ·è¾“å…¥åä¼šä¿®æ”¹è¯¥å˜é‡çš„å€¼
  */
 void print_menu(int *choice_ptr)
 {
-	// ÇåÆÁ
+	// æ¸…å±
 	system("cls");
 	printf("========================================\n");
-	printf("       Ñ§Éú³É¼¨¹ÜÀíĞÅÏ¢ÏµÍ³ v1.0        \n");
+	printf("       å­¦ç”Ÿæˆç»©ç®¡ç†ä¿¡æ¯ç³»ç»Ÿ v1.0        \n");
 	printf("========================================\n");
-	printf("  [1] ³õÊ¼»¯Êı¾İ    [5] µ¼³öÊı¾İ        \n");
-	printf("  [2] ĞÂÔöÊı¾İ      [6] µ¼ÈëÊı¾İ        \n");
-	printf("  [3] É¾³ıÊı¾İ      [7] ä¯ÀÀÊı¾İ        \n");
-	printf("  [4] ²éÕÒÊı¾İ      [0] ÍË³öÏµÍ³        \n");
+	printf("  [1] åˆå§‹åŒ–æ•°æ®    [5] å¯¼å‡ºæ•°æ®        \n");
+	printf("  [2] æ–°å¢æ•°æ®      [6] å¯¼å…¥æ•°æ®        \n");
+	printf("  [3] åˆ é™¤æ•°æ®      [7] æµè§ˆæ•°æ®        \n");
+	printf("  [4] æŸ¥æ‰¾æ•°æ®      [0] é€€å‡ºç³»ç»Ÿ        \n");
 	printf("========================================\n");
-	*choice_ptr = get_int("ÇåÑ¡ÔñÄãÒªÊ¹ÓÃµÄ¹¦ÄÜ [0-7]:", 0, INT_MAX);
+	*choice_ptr = get_int("æ¸…é€‰æ‹©ä½ è¦ä½¿ç”¨çš„åŠŸèƒ½ [0-7]:", 0, INT_MAX);
 }
 
 /**
- * @brief Ö÷¿Øº¯Êı£¬¸ºÔğÏÔÊ¾²Ëµ¥²¢µ÷ÓÃ¶ÔÓ¦µÄ¹¦ÄÜº¯Êı
+ * @brief ä¸»æ§å‡½æ•°ï¼Œè´Ÿè´£æ˜¾ç¤ºèœå•å¹¶è°ƒç”¨å¯¹åº”çš„åŠŸèƒ½å‡½æ•°
  */
 void mainpage()
 {
@@ -528,19 +528,19 @@ void mainpage()
 		case 6:get(); break;
 		case 7:read(); break;
 		case 0:my_exit(); break;
-		default:printf("²»ÊÇÓĞĞ§µÄ¹¦ÄÜ£¬ÇëÖØĞÂÑ¡Ôñ\n");
+		default:printf("ä¸æ˜¯æœ‰æ•ˆçš„åŠŸèƒ½ï¼Œè¯·é‡æ–°é€‰æ‹©\n");
 		}
 		system("pause");
 	}
 }
 
 /**
- * @brief Ö÷º¯Êı£¬³õÊ¼»¯Á´±íÍ·Î²Ö¸Õë£¬²¢½øÈëÖ÷²Ëµ¥Ñ­»·
+ * @brief ä¸»å‡½æ•°ï¼Œåˆå§‹åŒ–é“¾è¡¨å¤´å°¾æŒ‡é’ˆï¼Œå¹¶è¿›å…¥ä¸»èœå•å¾ªç¯
  */
 int main() {
 	head = (Student*)malloc(sizeof(Student));
 	if(head == NULL) {
-		printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡\n");
+		printf("å†…å­˜åˆ†é…å¤±è´¥ï¼\n");
 		return 1;
 	}
 	head->next = NULL;
