@@ -14,6 +14,8 @@
 
 Student* head, * tail;
 
+const long long NUM_MAX = LLONG_MAX;
+
 /**
  * @brief 清除输入流残留数据
  */
@@ -42,16 +44,24 @@ void print_student(const Student* student) {
  * @return 读取到的整数值
  * @note 如果用户输入无效，会提示重新输入，直到输入一个有效的整数为止
  */
-int get_int(const char* prompt) {
-	// TODO: 输入的是小数怎么办，输入的数太大怎么办，要是只想要正数怎么办
+int get_int(const char* prompt, int min, int max) {
+	// TODO: 输入的是小数怎么办
 	int value;
 	while (1) {
-		printf(prompt);
+		printf(prompt); 
 		if (scanf("%d", &value) == 1) {
 			clear_buffer();
+			if (value < min) {
+				fprintf(stderr, "输入的数至少为%d\n", min);
+				continue;
+			}
+			else if (value > max) {
+				fprintf(stderr, "输入的数最大为%d\n", max);
+				continue;
+			}
 			return value;
 		}
-		printf("请输入一个整数\n");
+		fprintf(stderr, "请输入一个整数\n");
 		clear_buffer();
 	}
 }
@@ -63,7 +73,7 @@ int get_int(const char* prompt) {
  */
 void input_student(Student* student) {
 
-	student->num = get_int("学号:");
+	student->num = get_int("学号:", 0, INT_MAX);
 
 	printf("姓名:");
 	if (scanf("%19s", student->name) == 1) {
@@ -78,7 +88,7 @@ void input_student(Student* student) {
 	for (int i = 0; i < 3; i++) {
 		char prompt[20] = {0};
 		sprintf(prompt, "科目[%d]:", i + 1);
-		student->score[i] = get_int(prompt);
+		student->score[i] = get_int(prompt, 0, 100);
 	}
 }
 
@@ -99,7 +109,7 @@ void append_student(Student* student){
  */
 void create() {
 	// TODO: 怎么保证不会出现相同的学号
-	int student_count = get_int("输入学生的个数：");
+	int student_count = get_int("输入学生的个数：", 0, 1'000'000);
 	for(int i = 0; i < student_count; i++) {
 		Student* current_student = (Student*)malloc(sizeof(Student));
 		if (current_student == NULL) {
@@ -143,7 +153,7 @@ void add() {
 void find_student_by_num() {
 	char choice;
 	do {
-		int num = get_int("请输入要查找的学号：");
+		int num = get_int("请输入要查找的学号：", 0, INT_MAX);
 		int is_find_num = 0;
 		Student* current_student = head->next;
 		while (current_student != NULL) {
@@ -221,7 +231,7 @@ void del_by_num() {
 			printf("请先使用初始化功能、新增数据功能或导入数据功能！\n");
 			return;
 		}
-		int num = get_int("请输入要删除的学号：");
+		int num = get_int("请输入要删除的学号：", 0, INT_MAX);
 		int has_del = 0;
 		Student* current_student = head->next, * prev_student = head;
 		while (current_student != NULL) {
@@ -323,7 +333,7 @@ void del() {
 	printf(" 1 按学号删除\n");
 	printf(" 2 按姓名删除\n");
 	printf(" 0 返回系统主菜单\n");
-	int choice = get_int("请输入您的选择：");
+	int choice = get_int("请输入您的选择：", 0, INT_MAX);
 	switch (choice)
 	{
 	case 1:del_by_num(); break;
@@ -347,7 +357,7 @@ void find() {
 	printf(" 1 按学号查询\n");
 	printf(" 2 按姓名查询\n");
 	printf(" 0 返回系统主菜单\n");
-	int choice = get_int("请输入您的选择：");
+	int choice = get_int("请输入您的选择：", 0, INT_MAX);
 	switch (choice)
 	{
 	case 1:find_student_by_num(); break;
@@ -498,7 +508,7 @@ void print_menu(int *choice_ptr)
 	printf("  [3] 删除数据      [7] 浏览数据        \n");
 	printf("  [4] 查找数据      [0] 退出系统        \n");
 	printf("========================================\n");
-	*choice_ptr = get_int("清选择你要使用的功能 [0-7]:");
+	*choice_ptr = get_int("清选择你要使用的功能 [0-7]:", 0, INT_MAX);
 }
 
 /**
