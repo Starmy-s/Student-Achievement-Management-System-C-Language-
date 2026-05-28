@@ -4,38 +4,28 @@
  */
 
 #ifdef _WIN32
-	#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #endif
 
-
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-
+#include "list.h"
 #include "student.h"
 
-Student* head, * tail;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include<stdbool.h>
+#include <limits.h>
+
+
 
 
 /**
  * @brief 清除输入流残留数据
  */
-void clear_buffer() {
+static void clear_buffer() {
 	int c;
 	// TODO: 如果缓冲区什么都没有，还得手动打一个回车
 	while ((c = getchar()) != '\n' && c != EOF);
-}
-
-/**
- * @brief 输出学生信息的函数
- * @param student 要输出的学生信息指针，使用前检查student是否为NULL
- */
-void print_student(const Student* student) {
-	printf("学号:%d\n", student->num);
-	printf("姓名:%s\n", student->name);
-	for (int i = 0; i < 3; i++) {
-		printf("科目[%d]:%d\n", i + 1, student->score[i]);
-	}
 }
 
 
@@ -45,80 +35,68 @@ void print_student(const Student* student) {
  * @return 读取到的整数值
  * @note 如果用户输入无效，会提示重新输入，直到输入一个有效的整数为止
  */
-int get_int(const char* prompt, int min, int max) {
+static int get_int(const char* prompt, int min, int max) {
 	// TODO: 输入的是小数怎么办
 	int value;
-	while (1) {
+	while (true) {
 		printf(prompt); 
 		if (scanf("%d", &value) == 1) {
 			clear_buffer();
 			if (value < min) {
-				fprintf(stderr, "输入的数至少为%d\n", min);
+				fprintf(stderr, "输入无效：输入的数至少为 %d\n", min);
 				continue;
 			}
 			else if (value > max) {
-				fprintf(stderr, "输入的数最大为%d\n", max);
+				fprintf(stderr, "输入无效：输入的数最大为 %d\n", max);
 				continue;
 			}
 			return value;
 		}
-		fprintf(stderr, "请输入一个整数\n");
+		fprintf(stderr, "输入错误：请输入一个整数\n");
 		clear_buffer();
 	}
 }
 
 
-/**
- * @brief 输入学生信息的函数
- * @param student 要输入的学生信息指针，使用前检查student是否为NULL
- */
-void input_student(Student* student) {
-
-	student->num = get_int("学号:", 0, INT_MAX);
-
-	printf("姓名:");
-	if (scanf("%19s", student->name) == 1) {
-		clear_buffer();
-	}
-	else {
-		printf("读取姓名失败，清重试！\n");
-		clear_buffer();
-		return;
-	}
-
-	for (int i = 0; i < 3; i++) {
-		char prompt[20] = {0};
-		sprintf(prompt, "科目[%d]:", i + 1);
-		student->score[i] = get_int(prompt, 0, 100);
-	}
-}
-
 
 /**
- * @brief 链表尾后添加结点
- * @param student 要添加的学生信息指针，使用前检查student是否为NULL
+ * @brief 收集一个学生数据的内部辅助函数
  */
-void append_student(Student* student){
-	student->next = NULL;
-	tail->next = student;
-	tail = student;
+static bool collect_student_input(char* out_id, char* out_name, int out_scores[]) {
+	printf("请输入学号: ");
+	if (scanf("%19s", out_id) != 1) {
+		clear_buffer(); 
+		return false;
+	}
+	clear_buffer();
+
+	printf("请输入姓名: ");
+	if (scanf("%49s", out_name) != 1) {
+		clear_buffer();
+		return false;
+	}
+	clear_buffer();
+
+	out_scores[CHINESE] = get_int("请输入语文成绩 [0-100]: ", 0, 100);
+	out_scores[MATH] = get_int("请输入数学成绩 [0-100]: ", 0, 100);
+	out_scores[ENGLISH] = get_int("请输入英语成绩 [0-100]: ", 0, 100);
+	return true;
 }
 
 
 /**
  * @brief 数据初始化函数
  */
-void create() {
+void create(List* list) {
 	// TODO: 怎么保证不会出现相同的学号
-	int student_count = get_int("输入学生的个数：", 0, INT_MAX);
+	int student_count = get_int("请输入要初始化的学生个数：", 0, INT_MAX);
+	char id[MAX_ID_LEN], name[MAX_NAME_LEN];
+	int scores[SUBJECT_COUNT];
 	for(int i = 0; i < student_count; i++) {
-		Student* current_student = (Student*)malloc(sizeof(Student));
-		if (current_student == NULL) {
-			printf("内存分配失败！\n");
-			return;
+		printf("\n--- 录入第 %d/%d 个学生 ---\n", i + 1, student_count);
+		if (collect_student_input(id, name, scores)) {
+			student_add(list, id, name, scores);
 		}
-		input_student(current_student);
-		append_student(current_student);
 	}
 }
 
@@ -126,16 +104,17 @@ void create() {
 /**
  * @brief 添加学生数据的函数，用户输入学生信息并将其添加到链表末尾
  */
-void add() {
+void add(List* list) {
 	char choice;
+	char id[MAX_ID_LEN], name[MAX_NAME_LEN];
+	int scores[SUBJECT_COUNT];
 	do {
-		Student* current_student = (Student*)malloc(sizeof(Student));
-		if (current_student == NULL) {
-			printf("内存分配失败！\n");
-			return;
+		printf("\n--- 开始录入新增学生信息 ---\n");
+		if (collect_student_input(id, name, scores)) {
+			if (student_add(list, id, name, scores)) {
+				printf("系统提示：学生数据添加成功！\n");
+			}
 		}
-		input_student(current_student);
-		append_student(current_student);
 		printf("是否继续添加数据？(y/n)");
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
@@ -148,184 +127,12 @@ void add() {
 	} while (choice == 'y' || choice == 'Y');
 }
 
-/*
-* @brief 按照学号查找学生信息的函数，用户输入学号，找到对应学生并显示其信息
-*/
-void find_student_by_num() {
-	char choice;
-	do {
-		int num = get_int("请输入要查找的学号：", 0, INT_MAX);
-		int is_find_num = 0;
-		Student* current_student = head->next;
-		while (current_student != NULL) {
-			if (current_student->num == num) {
-				is_find_num = 1;
-				print_student(current_student);
-				break;
-			}
-			current_student = current_student->next;
-		}
-		if (is_find_num == 0) {
-			printf("没有这个学号的学生！\n");
-		}
-		printf("你想继续查找数据吗？<是-y>:");
-		if (scanf("%c", &choice) == 1) {
-			clear_buffer();
-		}
-		else {
-			printf("输入无效，清重试！\n");
-			clear_buffer();
-			return;
-		}
-	} while (choice == 'y' || choice == 'Y');
-}
-
-/*
-* @brief 按照姓名查找学生信息的函数，用户输入姓名，找到对应学生并显示其信息，注意可能存在同名学生
-*/
-void find_student_by_name() {
-	char choice;
-	do {
-		char name[20] = {0};
-		printf("请输入要查找的姓名:");
-		if (scanf("%19s", name) == 1) {
-			clear_buffer();
-		}
-		else {
-			printf("读取姓名失败，清重试！\n");
-			clear_buffer();
-			return;
-		}
-		Student* current_student = head->next;
-		int find_count = 0;
-		while (current_student != NULL) {
-			if (strcmp(current_student->name, name) == 0) {
-				print_student(current_student);
-				find_count++;
-			}
-			current_student = current_student->next;
-		}
-		if (find_count == 0) {
-			printf("没有这个姓名的学生！\n");
-		}
-		printf("你想继续查找数据吗？<是-y>:");
-		if (scanf("%c", &choice) == 1) {
-			clear_buffer();
-		}
-		else {
-			printf("输入无效，清重试！\n");
-			clear_buffer();
-			return;
-		}
-	} while (choice == 'y' || choice == 'Y');
-}
-
-// TODO: 可以考虑用双向链表优化
-/**
- * @brief 按照学号删除学生信息的函数，用户输入学号，找到对应学生并从链表中删除
- */
-void del_by_num() {
-	char choice;
-	do {
-		if (head == tail) {
-			printf("链表为空，不能删除数据。\n");
-			printf("请先使用初始化功能、新增数据功能或导入数据功能！\n");
-			return;
-		}
-		int num = get_int("请输入要删除的学号：", 0, INT_MAX);
-		int has_del = 0;
-		Student* current_student = head->next, * prev_student = head;
-		while (current_student != NULL) {
-			if (current_student->num == num) {
-				prev_student->next = current_student->next;
-				if (current_student == tail) {
-					tail = prev_student;
-				}
-				free(current_student);
-				has_del = 1;
-				break;
-			}
-			prev_student = current_student;
-			current_student = current_student->next;
-		}
-		if (!has_del) {
-			printf("没有这个学号的学生！\n");
-		}
-		printf("你想继续删除数据吗？<是-y>:");
-		if (scanf("%c", &choice) == 1) {
-			clear_buffer();
-		}
-		else {
-			printf("输入无效，清重试！\n");
-			clear_buffer();
-			return;
-		}
-	} while (choice == 'y' || choice == 'Y');
-
-}
-
-/**
- * @brief 按名字删除学生信息的函数，用户输入姓名，找到对应学生并从链表中删除，注意可能存在同名学生
- */
-void del_by_name() {
-	char choice;
-	do {
-		// 因为一直在删除，所有每次都得检查
-		if (head == tail) {
-			printf("链表为空，不能删除数据。\n");
-			printf("请先使用初始化功能、新增数据功能或导入数据功能！\n");
-			return;
-		}
-		char name[20] = { 0 };
-		printf("请输入要删除的姓名:");
-		if (scanf("%19s", name) == 1) {
-			clear_buffer();
-		}
-		else {
-			printf("读取姓名失败，清重试！\n");
-			clear_buffer();
-			return;
-		}
-		int del_count = 0;
-		Student* current_student = head->next, * prev_student = head;
-		while (current_student != NULL) {
-			if (strcmp(current_student->name, name) == 0) {
-				prev_student->next = current_student->next;
-				if (current_student == tail) {
-					tail = prev_student;
-				}
-				free(current_student);
-				// 特殊处理一下，只更新current_student，不更新prev_student
-				current_student = prev_student->next;
-				del_count++;
-				continue;
-			}
-			prev_student = current_student;
-			current_student = current_student->next;
-		}
-		if (del_count == 0) {
-			printf("没有这个姓名的学生！\n");
-		}
-		else {
-			printf("本次共删除了%d个学生信息\n", del_count);
-		}
-		printf("你想继续删除数据吗？<是-y>:");
-		if (scanf("%c", &choice) == 1) {
-			clear_buffer();
-		}
-		else {
-			printf("输入无效，清重试！\n");
-			clear_buffer();
-			return;
-		}
-	} while (choice == 'y' || choice == 'Y');
-}
 
 /**
  * @brief 数据删除函数，用户输入学号，找到对应学生并从链表中删除
  */
-void del() {
-	if(head == tail) {
+void del(List* list) {
+	if(list == NULL || list->size == 0) {
 		printf("链表为空，不能删除数据。\n");
 		printf("请先使用初始化功能、新增数据功能或导入数据功能！\n");
 		return;
@@ -334,13 +141,29 @@ void del() {
 	printf(" 1 按学号删除\n");
 	printf(" 2 按姓名删除\n");
 	printf(" 0 返回系统主菜单\n");
-	int choice = get_int("请输入您的选择：", 0, INT_MAX);
-	switch (choice)
-	{
-	case 1:del_by_num(); break;
-	case 2:del_by_name(); break;
-	case 0:return; break;
-	default:printf("不是有效的功能，请重新选择\n");
+	int choice = get_int("请输入您的选择：", 0, 2);
+
+	if (choice == 1) {
+		char id[MAX_ID_LEN];
+		printf("请输入要删除的学号: ");
+		if (scanf("%19s", id) != 1) {
+			clear_buffer();
+			return;
+		}
+		clear_buffer();
+		if (student_delete_by_id(list, id)) {
+			printf("系统提示：该学生已被成功删除！\n");
+		}
+	}
+	else if (choice == 2) {
+		char name[MAX_NAME_LEN];
+		printf("请输入要删除的姓名: ");
+		if (scanf("%49s", name) != 1) {
+			clear_buffer();
+			return;
+		}
+		clear_buffer();
+		student_delete_by_name(list, name);
 	}
 }
 
@@ -348,72 +171,77 @@ void del() {
 /**
  * @brief 数据查找函数，用户输入学号，找到对应学生并显示其信息
  */
-void find() {
-	if (head == tail) {
+void find(List* list) {
+	if (list == NULL || list->size == 0) {
 		printf("链表为空，不能查找数据。\n");
 		printf("请先使用初始化功能、新增数据功能或导入数据功能！\n");
 		return;
 	}
-	printf("数据查询 子菜单\n");
-	printf(" 1 按学号查询\n");
-	printf(" 2 按姓名查询\n");
-	printf(" 0 返回系统主菜单\n");
-	int choice = get_int("请输入您的选择：", 0, INT_MAX);
-	switch (choice)
-	{
-	case 1:find_student_by_num(); break;
-	case 2:find_student_by_name(); break;
-	case 0:return; break;
-	default:printf("不是有效的功能，请重新选择\n");
+	printf("\n==== 数据查询 子菜单 ====\n");
+	printf("  1 按学号查询\n");
+	printf("  2 按姓名查询\n");
+	printf("  0 返回系统主菜单\n");
+	printf("=========================\n");
+	int choice = get_int("请输入您的选择：", 0, 2);
+	
+
+	if (choice == 1) {
+		char id[MAX_ID_LEN];
+		printf("请输入要查询的学号: ");
+		if (scanf("%19s", id) != 1) {
+			clear_buffer();
+			return;
+		}
+		clear_buffer();
+		student_query_by_id(list, id);
+	}
+	else if (choice == 2) {
+		char name[MAX_NAME_LEN];
+		printf("请输入要查询的姓名: ");
+		if (scanf("%49s", name) != 1) {
+			clear_buffer();
+			return;
+		}
+		clear_buffer();
+		student_query_by_name(list, name);
 	}
 }
 
-/*
-* @brief 清空链表函数，释放链表中所有学生信息的内存，并将链表重置为空状态
-*/
-void clear_list() {
-	Student* current_student = head->next;
-	while (current_student != NULL) {
-		Student* temp = current_student;
-		current_student = current_student->next;
-		free(temp);
-	}
-	head->next = NULL;
-	tail = head;
-}	
 
 /**
  * @brief 数据导出函数，将链表中的学生数据写入文件保存
  */
-void put() {
-	if(head == tail){
+void put(List* list) {
+	if (list == NULL || list->size == 0) {
 		printf("链表为空，不需要导出数据！\n");
 		return;
 	}
 	FILE* fp = fopen("students.dat", "wb");
 	if (fp == NULL) {
-		printf("无法打开文件进行保存！\n");
+		printf("错误：无法创建或打开数据保存文件！\n");
 		return;
 	}
-	Student* current_student = head->next;
-	while (current_student != NULL) {
+	Node* current = list->head->next;
+	while (current != list->tail) {
 		// TODO: 最好不要存next指针
-		fwrite(current_student, sizeof(Student), 1, fp);
-		current_student = current_student->next;
+		Student* student = (Student*)current->data;
+		fwrite(student, sizeof(Student), 1, fp);
+		current = current->next;
 	}
 	fclose(fp);
-	printf("数据已成功保存到文件！\n");
-	clear_list();
+	printf("数据已成功安全导出至本地 [students.dat] 文件！\n");
+	student_clear_all_data(list);
 }
 
 
 /**
  * @brief 数据导入函数，从文件中读取学生数据并构建链表，注意避免重复导入
  */
-void get() {
-	if (head != tail) {
-		printf("链表中有数据，导入数据后，原链表中的数据将丢失!\n");
-		printf("是否继续导入数据？(是 - y）:");
+void get(List* list) {
+	if (list == NULL) return;
+	if (list->size > 0) {
+		printf("警告：当前内存中有已有数据，导入后原数据将完全丢失!\n");
+		printf("是否确认覆盖并继续导入数据？(确认 - y):");
 		char choice;
 		if (scanf("%c", &choice) == 1) {
 			clear_buffer();
@@ -424,7 +252,7 @@ void get() {
 			return;
 		}
 		if (choice == 'y' || choice == 'Y') {
-			clear_list();
+			student_clear_all_data(list);
 		}
 		else {
 			return;
@@ -432,14 +260,15 @@ void get() {
 	}
 	FILE* fp = fopen("students.dat", "rb");
 	if (fp == NULL) {
-		printf("没有找到数据，清先创建数据\n");
+		printf("错误：没有找到本地 [students.dat] 数据文件，请先创建并导出数据！\n");
 		return;
 	}
 
+	printf("\n正在安全读取文件并还原链表结构...\n");
 	while (1) {
 		Student* current_student = (Student*)malloc(sizeof(Student));
 		if(current_student == NULL) {
-			printf("内存分配失败！\n");
+			printf("系统级内存不足！\n");
 			fclose(fp);
 			return;
 		}
@@ -448,56 +277,52 @@ void get() {
 			break;
 		}
 
-		print_student(current_student);
-		append_student(current_student);
+		list_append(list, current_student);
 	}
 	fclose(fp);
+	printf("成功：已成功从文件读取并加载了 %d 条历史数据！\n", list->size);
 }
 
 
 /**
  * @brief 数据浏览函数，显示链表中所有学生的信息
  */
-void read() {
-	if(head == tail) {
-		printf("链表为空，没有数据可以浏览！\n");
-		return;
-	}
-	Student* current_student = head->next;
-	while (current_student != NULL) {
-		print_student(current_student);
-		current_student = current_student->next;
-	}
+void read(List* list) {
+	student_print_all(list);
 }
 
 /**
  * @brief 退出函数，在退出前询问用户是否需要将数据导入文件，如果需要则将链表中的数据写入文件保存
  */
-void my_exit() {
-	if (head == tail) {
-		exit(0);
+void my_exit(List* list) {
+	if (list != NULL && list->size > 0) {
+		char choice;
+		printf("检测到当前内存存在未存盘数据，是否在退出前导出到文件？(y/n):");
+		if (scanf("%c", &choice) == 1) {
+			clear_buffer();
+		}
+		else {
+			printf("输入无效，清重试！\n");
+			clear_buffer();
+			return;
+		}
+		if (choice == 'y' || choice == 'Y') {
+			put(list);
+		}
 	}
-	char choice;
-	printf("是否需要是否需要将数据导入文件(是 - y）");
-	if (scanf("%c", &choice) == 1) {
-		clear_buffer();
+	if (list != NULL) {
+		student_clear_all_data(list);
+		list_destory(list);
 	}
-	else {
-		printf("输入无效，清重试！\n");
-		clear_buffer();
-		return;
-	}
-	if(choice == 'y' || choice == 'Y') {
-		put();
-	}
+	printf("\n感谢使用学生成绩管理信息系统，再见！\n");
 	exit(0);
 }
 
-/**
- * @brief 打印主菜单
- * @param choice_ptr 功能选择的变量地址，用户输入后会修改该变量的值
- */
-void print_menu(int *choice_ptr)
+/*
+* @brief 打印主菜单
+* @param choice_ptr 功能选择的变量地址，用户输入后会修改该变量的值
+*/
+void print_menu(List* list, int *choice_ptr)
 {
 	// 清屏
 #ifdef _WIN32
@@ -506,34 +331,35 @@ void print_menu(int *choice_ptr)
 	system("clear");
 #endif 
 	printf("========================================\n");
-	printf("       学生成绩管理信息系统 v1.0        \n");
+	printf("        学生成绩管理信息系统 v2.0        \n");
+	printf("       [ 当前在册学生总数: %-3d 人 ]      \n", list ? list->size : 0);
 	printf("========================================\n");
 	printf("  [1] 初始化数据    [5] 导出数据        \n");
 	printf("  [2] 新增数据      [6] 导入数据        \n");
 	printf("  [3] 删除数据      [7] 浏览数据        \n");
 	printf("  [4] 查找数据      [0] 退出系统        \n");
 	printf("========================================\n");
-	*choice_ptr = get_int("清选择你要使用的功能 [0-7]:", 0, INT_MAX);
+	*choice_ptr = get_int("请选择功能编号 [0-7]: ", 0, 7);
 }
 
-/**
- * @brief 主控函数，负责显示菜单并调用对应的功能函数
- */
-void mainpage()
+/*
+* @brief 主循环，负责显示菜单并调用对应的功能函数
+*/
+void mainpage(List* list)
 {
 	while (1) {
 		int choice;
-		print_menu(&choice);
+		print_menu(list, &choice);
 		switch (choice)
 		{
-		case 1:create(); break;
-		case 2:add(); break;
-		case 3:del(); break;
-		case 4:find(); break;
-		case 5:put(); break;
-		case 6:get(); break;
-		case 7:read(); break;
-		case 0:my_exit(); break;
+		case 1:create(list); break;
+		case 2:add(list); break;
+		case 3:del(list); break;
+		case 4:find(list); break;
+		case 5:put(list); break;
+		case 6:get(list); break;
+		case 7:read(list); break;
+		case 0:my_exit(list); break;
 		default:printf("不是有效的功能，请重新选择\n");
 		}
 
@@ -546,18 +372,16 @@ void mainpage()
 	}
 }
 
-/**
- * @brief 主函数，初始化链表头尾指针，并进入主菜单循环
- */
+/*
+* @brief 主函数，初始化链表头尾指针，并进入主菜单循环
+*/
 int main() {
-	head = (Student*)malloc(sizeof(Student));
-	if(head == NULL) {
-		printf("内存分配失败！\n");
+	List* student_list = list_create();
+	if(student_list == NULL) {
+		fprintf(stderr, "核心故障：初始化基础数据结构驱动失败！\n");
 		return 1;
 	}
-	head->next = NULL;
-	tail = head;
-
-	mainpage();
+	
+	mainpage(student_list);
 	return 0;
 }

@@ -9,7 +9,7 @@
 /*
 * @brief 初始化并创建一个空链表控制头
 */
-List* listcreate() {
+List* list_create() {
 	List* list = (List*)malloc(sizeof(List));
 	if (list == NULL) return NULL;
 
@@ -49,9 +49,11 @@ bool list_append(List* list, void* data) {
 	new_node->next = list->tail;
 	new_node->prev = tail_prev;
 	tail_prev->next = new_node;
-	tail_prev = new_node;
+	//tail_prev = new_node; 这么写不对
+	list->tail->prev = new_node;
 
 	list->size++;
+	return true;
 }
 
 /*

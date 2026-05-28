@@ -27,7 +27,7 @@ typedef struct List {
 } List;
 
 // 链表操作函数声明，需要地址返回地址，不需要返回bool，一定成功不用返回
-List* listcreate();
+List* list_create();
 bool list_append(List* list, void* data);
 bool list_delete(List* list, Node* node);
 void list_destory(List* list);

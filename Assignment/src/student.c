@@ -3,8 +3,14 @@
  * @date 2026-05-28
  */
 
-#include"student.h"
+#ifdef _WIN32
+
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include"list.h"
+#include"student.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -41,7 +47,7 @@ static void student_printf_single(const Student* stu) {
 		total_score += stu->scores[i];
 	}
 
-	printf("学号: %-10s | 姓名: %-10s | 语文: %-3d | 数学: %-3d | 英语: %-3d | 总分: %-3d\n",
+	printf("| %-10s | %-10s | 语文: %-3d | 数学: %-3d | 英语: %-3d | 总分: %-3d |\n",
 		stu->id, stu->name,
 		stu->scores[CHINESE], stu->scores[MATH], stu->scores[ENGLISH],
 		total_score);
@@ -63,8 +69,11 @@ bool student_add(List* list, const char* id, const char* name, int scores[]) {
 	Student* new_student = (Student*)malloc(sizeof(Student));
 	if (new_student == NULL) return false;
 	// 保证不会越界
-	strcpy(new_student->id, id, MAX_ID_LEN - 1);
-	strcpy(new_student->name, name, MAX_NAME_LEN - 1);
+	// 原本写法：strcpy(dest, src); 或 strncpy(new_student->name, name, MAX_NAME_LEN - 1);
+	// strncpy：如果外部输入的 name 长度刚好大于或等于 MAX_NAME_LEN - 1，它在复制完规定的字节数后，是不会在末尾自动补 \0 的
+	// snprintf 会自动算好空间、截断，并且【100% 自动在末尾补 '\0'】，只需要告诉它内存的总大小是多少，它会自己留出 \0
+	snprintf(new_student->id, MAX_ID_LEN, "%s", id);
+	snprintf(new_student->name, MAX_NAME_LEN, "%s", name);
 	for (int i = 0; i < SUBJECT_COUNT; i++) {
 		new_student->scores[i] = scores[i];
 	}
@@ -158,7 +167,7 @@ int student_delete_by_name(List* list, const char* name) {
 	}
 
 	if (delete_count > 0) {
-		printf("成功：已从系统中批量删除 %d 名积分为 [%s] 的学生。\n", delete_count, name);
+		printf("成功：已从系统中批量删除 %d 名姓名为 [%s] 的学生。\n", delete_count, name);
 	}
 	else {
 		printf("提示：未找到姓名匹配为 [%s] 的学生，无数据被删除。\n", name);
@@ -172,7 +181,8 @@ int student_delete_by_name(List* list, const char* name) {
 */
 void student_print_all(List* list) {
 	if (list == NULL || list->size == 0) {
-		printf("系统提示：当前没有任何学生数据");
+		printf("系统提示：当前没有任何学生数据\n");
+		return;
 	}
 
 	printf("\n【学生成绩总表】(总人数: %d)\n", list->size);
