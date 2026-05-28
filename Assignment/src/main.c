@@ -3,7 +3,10 @@
  * @date 2026-05-26
  */
 
-#define _CRT_SECURE_NO_WARNINGS
+#ifdef _WIN32
+	#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -497,7 +500,11 @@ void my_exit() {
 void print_menu(int *choice_ptr)
 {
 	// 清屏
+#ifdef _WIN32
 	system("cls");
+#else
+	system("clear");
+#endif 
 	printf("========================================\n");
 	printf("       学生成绩管理信息系统 v1.0        \n");
 	printf("========================================\n");
@@ -529,7 +536,13 @@ void mainpage()
 		case 0:my_exit(); break;
 		default:printf("不是有效的功能，请重新选择\n");
 		}
+
+#ifdef _WIN32
 		system("pause");
+#else
+		printf("按回车键继续...");
+		getchar();
+#endif
 	}
 }
 
