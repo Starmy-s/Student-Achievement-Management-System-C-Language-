@@ -64,18 +64,21 @@ static int get_int(const char* prompt, int min, int max) {
  */
 static bool collect_student_input(char* out_id, char* out_name, int out_scores[]) {
 	printf("请输入学号: ");
+	// 懒得管了，不是数字就不是数字吧
 	if (scanf("%19s", out_id) != 1) {
 		clear_buffer(); 
 		return false;
 	}
 	clear_buffer();
 
-	printf("请输入姓名: ");
-	if (scanf("%49s", out_name) != 1) {
+	// 防止误触回车
+	while (true) {
+		printf("请输入姓名: ");
+		int res = scanf("%49[^\n]", out_name);
 		clear_buffer();
-		return false;
+		if (res == 1) break;
+		printf("输入错误：姓名不能为空，请重新输入！\n");
 	}
-	clear_buffer();
 
 	out_scores[CHINESE] = get_int("请输入语文成绩 [0-100]: ", 0, 100);
 	out_scores[MATH] = get_int("请输入数学成绩 [0-100]: ", 0, 100);
@@ -88,7 +91,7 @@ static bool collect_student_input(char* out_id, char* out_name, int out_scores[]
  * @brief 数据初始化函数
  */
 void create(List* list) {
-	// TODO: 怎么保证不会出现相同的学号
+	// 保证不会出现相同的学号
 	int student_count = get_int("请输入要初始化的学生个数：", 0, INT_MAX);
 	char id[MAX_ID_LEN], name[MAX_NAME_LEN];
 	int scores[SUBJECT_COUNT];
