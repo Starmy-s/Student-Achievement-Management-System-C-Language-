@@ -6,6 +6,7 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
+#include "list.h"
 #define MAX_ID_LEN   20
 #define MAX_NAME_LEN 50
 
@@ -36,17 +37,4 @@ typedef struct {
 	
 } Student;
 
-
-/*
-* @brief 学生信息双向链表节点结构体
-* @field data 学生信息结构体
-* @field prev 前驱节点
-* @field next后继节点
-*/
-typedef struct StudentNode {
-	Student data;
-	struct StudentNode* prev;
-	struct StudentNode* next;
-} StudentNode;
-
-#endif
+#endif // !STUDENT_H
