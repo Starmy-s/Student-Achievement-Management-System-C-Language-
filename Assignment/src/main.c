@@ -19,9 +19,9 @@
 
 
 
-/**
- * @brief 清除输入流残留数据
- */
+ /**
+  * @brief 清除输入流残留数据
+  */
 static void clear_buffer() {
 	int c;
 	// TODO: 如果缓冲区什么都没有，还得手动打一个回车
@@ -39,7 +39,7 @@ static int get_int(const char* prompt, int min, int max) {
 	// TODO: 输入的是小数怎么办
 	int value;
 	while (true) {
-		printf(prompt); 
+		printf(prompt);
 		if (scanf("%d", &value) == 1) {
 			clear_buffer();
 			if (value < min) {
@@ -66,7 +66,7 @@ static bool collect_student_input(char* out_id, char* out_name, int out_scores[]
 	printf("请输入学号: ");
 	// 懒得管了，不是数字就不是数字吧
 	if (scanf("%19s", out_id) != 1) {
-		clear_buffer(); 
+		clear_buffer();
 		return false;
 	}
 	clear_buffer();
@@ -95,7 +95,7 @@ void create(List* list) {
 	int student_count = get_int("请输入要初始化的学生个数：", 0, INT_MAX);
 	char id[MAX_ID_LEN], name[MAX_NAME_LEN];
 	int scores[SUBJECT_COUNT];
-	for(int i = 0; i < student_count; i++) {
+	for (int i = 0; i < student_count; i++) {
 		printf("\n--- 录入第 %d/%d 个学生 ---\n", i + 1, student_count);
 		if (collect_student_input(id, name, scores)) {
 			student_add(list, id, name, scores);
@@ -135,7 +135,7 @@ void add(List* list) {
  * @brief 数据删除函数，用户输入学号，找到对应学生并从链表中删除
  */
 void del(List* list) {
-	if(list == NULL || list->size == 0) {
+	if (list == NULL || list->size == 0) {
 		printf("链表为空，不能删除数据。\n");
 		printf("请先使用初始化功能、新增数据功能或导入数据功能！\n");
 		return;
@@ -186,7 +186,7 @@ void find(List* list) {
 	printf("  0 返回系统主菜单\n");
 	printf("=========================\n");
 	int choice = get_int("请输入您的选择：", 0, 2);
-	
+
 
 	if (choice == 1) {
 		char id[MAX_ID_LEN];
@@ -270,7 +270,7 @@ void get(List* list) {
 	printf("\n正在安全读取文件并还原链表结构...\n");
 	while (1) {
 		Student* current_student = (Student*)malloc(sizeof(Student));
-		if(current_student == NULL) {
+		if (current_student == NULL) {
 			printf("系统级内存不足！\n");
 			fclose(fp);
 			return;
@@ -293,6 +293,7 @@ void get(List* list) {
 void read(List* list) {
 	student_print_all(list);
 }
+
 
 /**
  * @brief 退出函数，在退出前询问用户是否需要将数据导入文件，如果需要则将链表中的数据写入文件保存
@@ -325,7 +326,7 @@ void my_exit(List* list) {
 * @brief 打印主菜单
 * @param choice_ptr 功能选择的变量地址，用户输入后会修改该变量的值
 */
-void print_menu(List* list, int *choice_ptr)
+void print_menu(List* list, int* choice_ptr)
 {
 	// 清屏
 #ifdef _WIN32
@@ -380,11 +381,11 @@ void mainpage(List* list)
 */
 int main() {
 	List* student_list = list_create();
-	if(student_list == NULL) {
+	if (student_list == NULL) {
 		fprintf(stderr, "核心故障：初始化基础数据结构驱动失败！\n");
 		return 1;
 	}
-	
+
 	mainpage(student_list);
 	return 0;
 }
