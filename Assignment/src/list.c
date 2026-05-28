@@ -45,6 +45,7 @@ bool list_append(List* list, void* data) {
 	new_node->data = data;
 
 	Node* tail_prev = list->tail->prev;
+	// 一定要先加新的链，再改已有的链，先改没用的链，再改有用的链
 	new_node->next = list->tail;
 	new_node->prev = tail_prev;
 	tail_prev->next = new_node;
@@ -61,7 +62,6 @@ bool list_delete(List* list, Node* node) {
 	if (list == NULL || node == NULL || node == list->head || node == list->tail) {
 		return false;
 	}
-
 
 	// 绝对不会出现左值node->prev与node->next为NULL的可能
 	node->prev->next = node->next;
