@@ -1,5 +1,5 @@
-/**
- * @brief Ñ§Éú³É¼¨¹ÜÀíÏµÍ³µÄºËĞÄÊı¾İ½á¹¹
+ï»¿/**
+ * @brief å­¦ç”Ÿæˆç»©ç®¡ç†ç³»ç»Ÿçš„æ ¸å¿ƒæ•°æ®ç»“æ„
  * @date 2026-05-26
  */
 
@@ -11,11 +11,11 @@
 #define MAX_NAME_LEN 50
 
 /*
-* @brief Ñ§¿ÆÃ¶¾ÙÀàĞÍ
-* @field CHINESE ÓïÎÄ
-* @field MATH ÊıÑ§
-* @field ENGLIFH Ó¢Óï
-* @field SUBJECT_COUNT ¿ÆÄ¿ÊıÁ¿
+* @brief å­¦ç§‘æšä¸¾ç±»å‹
+* @field CHINESE è¯­æ–‡
+* @field MATH æ•°å­¦
+* @field ENGLIFH è‹±è¯­
+* @field SUBJECT_COUNT ç§‘ç›®æ•°é‡
 */
 enum Subjects {
 	CHINESE = 0,
@@ -25,20 +25,20 @@ enum Subjects {
 };
 
 /*
-* @brief Ñ§ÉúĞÅÏ¢½á¹¹Ìå
-* @field id Ñ§ºÅ
-* @field name ĞÕÃû
-* @field score ³É¼¨Êı×é£¬°üº¬3ÃÅ¿Î³ÌµÄ³É¼¨
+* @brief å­¦ç”Ÿä¿¡æ¯ç»“æ„ä½“
+* @field id å­¦å·
+* @field name å§“å
+* @field score æˆç»©æ•°ç»„ï¼ŒåŒ…å«3é—¨è¯¾ç¨‹çš„æˆç»©
 */
 typedef struct {
-	// Ñ§ºÅ
+	// å­¦å·
 	char id[MAX_ID_LEN];
 	char name[MAX_NAME_LEN];
 	int scores[SUBJECT_COUNT];
 	
 } Student;
 
-// Ñ§ÉúĞÅÏ¢ÒµÎñÂß¼­º¯ÊıÉùÃ÷£¬ĞèÒªµØÖ··µ»ØµØÖ·£¬²»ĞèÒª·µ»Øbool£¬Ò»¶¨³É¹¦²»ÓÃ·µ»Ø
+// å­¦ç”Ÿä¿¡æ¯ä¸šåŠ¡é€»è¾‘å‡½æ•°å£°æ˜ï¼Œéœ€è¦åœ°å€è¿”å›åœ°å€ï¼Œä¸éœ€è¦è¿”å›boolï¼Œä¸€å®šæˆåŠŸä¸ç”¨è¿”å›
 bool student_add(List* list, const char* id, const char* name, int scores[]);
 bool student_query_by_id(List* list, const char* id);
 bool student_delete_by_id(List* list, const char* id);
