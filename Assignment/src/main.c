@@ -14,7 +14,6 @@
 
 Student* head, * tail;
 
-const long long NUM_MAX = LLONG_MAX;
 
 /**
  * @brief 清除输入流残留数据
@@ -109,7 +108,7 @@ void append_student(Student* student){
  */
 void create() {
 	// TODO: 怎么保证不会出现相同的学号
-	int student_count = get_int("输入学生的个数：", 0, 1'000'000);
+	int student_count = get_int("输入学生的个数：", 0, INT_MAX);
 	for(int i = 0; i < student_count; i++) {
 		Student* current_student = (Student*)malloc(sizeof(Student));
 		if (current_student == NULL) {
