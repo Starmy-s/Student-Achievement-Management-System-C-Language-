@@ -1,9 +1,10 @@
-﻿/**
+/**
  * @brief 学生成绩管理系统的主程序入口
  * @date 2026-05-26
  */
 
 #ifdef _WIN32
+#pragma execution_character_set("utf-8")
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
@@ -13,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<stdbool.h>
+#include <stdbool.h>
 #include <limits.h>
 
 
@@ -43,16 +44,16 @@ static int get_int(const char* prompt, int min, int max) {
 		if (scanf("%d", &value) == 1) {
 			clear_buffer();
 			if (value < min) {
-				fprintf(stderr, "输入无效：输入的数至少为 %d\n", min);
+				fprintf(stderr, "输入无效: 输入的数至少为 %d\n", min);
 				continue;
 			}
 			else if (value > max) {
-				fprintf(stderr, "输入无效：输入的数最大为 %d\n", max);
+				fprintf(stderr, "输入无效: 输入的数最大为 %d\n", max);
 				continue;
 			}
 			return value;
 		}
-		fprintf(stderr, "输入错误：请输入一个整数\n");
+		fprintf(stderr, "输入错误: 请输入一个整数\n");
 		clear_buffer();
 	}
 }
@@ -77,7 +78,7 @@ static bool collect_student_input(char* out_id, char* out_name, int out_scores[]
 		int res = scanf("%49[^\n]", out_name);
 		clear_buffer();
 		if (res == 1) break;
-		printf("输入错误：姓名不能为空，请重新输入！\n");
+		printf("输入错误: 姓名不能为空，请重新输入！\n");
 	}
 
 	out_scores[CHINESE] = get_int("请输入语文成绩 [0-100]: ", 0, 100);
@@ -92,7 +93,7 @@ static bool collect_student_input(char* out_id, char* out_name, int out_scores[]
  */
 void create(List* list) {
 	// 保证不会出现相同的学号
-	int student_count = get_int("请输入要初始化的学生个数：", 0, INT_MAX);
+	int student_count = get_int("请输入要初始化的学生个数: ", 0, INT_MAX);
 	char id[MAX_ID_LEN], name[MAX_NAME_LEN];
 	int scores[SUBJECT_COUNT];
 	for (int i = 0; i < student_count; i++) {
@@ -115,7 +116,7 @@ void add(List* list) {
 		printf("\n--- 开始录入新增学生信息 ---\n");
 		if (collect_student_input(id, name, scores)) {
 			if (student_add(list, id, name, scores)) {
-				printf("系统提示：学生数据添加成功！\n");
+				printf("系统提示: 学生数据添加成功！\n");
 			}
 		}
 		printf("是否继续添加数据？(y/n)");
@@ -144,7 +145,7 @@ void del(List* list) {
 	printf(" 1 按学号删除\n");
 	printf(" 2 按姓名删除\n");
 	printf(" 0 返回系统主菜单\n");
-	int choice = get_int("请输入您的选择：", 0, 2);
+	int choice = get_int("请输入您的选择: ", 0, 2);
 
 	if (choice == 1) {
 		char id[MAX_ID_LEN];
@@ -155,7 +156,7 @@ void del(List* list) {
 		}
 		clear_buffer();
 		if (student_delete_by_id(list, id)) {
-			printf("系统提示：该学生已被成功删除！\n");
+			printf("系统提示: 该学生已被成功删除！\n");
 		}
 	}
 	else if (choice == 2) {
@@ -185,7 +186,7 @@ void find(List* list) {
 	printf("  2 按姓名查询\n");
 	printf("  0 返回系统主菜单\n");
 	printf("=========================\n");
-	int choice = get_int("请输入您的选择：", 0, 2);
+	int choice = get_int("请输入您的选择: ", 0, 2);
 
 
 	if (choice == 1) {
@@ -221,7 +222,7 @@ void put(List* list) {
 	}
 	FILE* fp = fopen("students.dat", "wb");
 	if (fp == NULL) {
-		printf("错误：无法创建或打开数据保存文件！\n");
+		printf("错误: 无法创建或打开数据保存文件！\n");
 		return;
 	}
 	Node* current = list->head->next;
@@ -243,7 +244,7 @@ void put(List* list) {
 void get(List* list) {
 	if (list == NULL) return;
 	if (list->size > 0) {
-		printf("警告：当前内存中有已有数据，导入后原数据将完全丢失!\n");
+		printf("警告: 当前内存中有已有数据，导入后原数据将完全丢失!\n");
 		printf("是否确认覆盖并继续导入数据？(确认 - y):");
 		char choice;
 		if (scanf("%c", &choice) == 1) {
@@ -263,7 +264,7 @@ void get(List* list) {
 	}
 	FILE* fp = fopen("students.dat", "rb");
 	if (fp == NULL) {
-		printf("错误：没有找到本地 [students.dat] 数据文件，请先创建并导出数据！\n");
+		printf("错误: 没有找到本地 [students.dat] 数据文件，请先创建并导出数据！\n");
 		return;
 	}
 
@@ -283,7 +284,7 @@ void get(List* list) {
 		list_append(list, current_student);
 	}
 	fclose(fp);
-	printf("成功：已成功从文件读取并加载了 %d 条历史数据！\n", list->size);
+	printf("成功: 已成功从文件读取并加载了 %d 条历史数据！\n", list->size);
 }
 
 
@@ -380,9 +381,12 @@ void mainpage(List* list)
 * @brief 主函数，初始化链表头尾指针，并进入主菜单循环
 */
 int main() {
+#ifdef _WIN32
+	system("chcp 65001 > nul");
+#endif
 	List* student_list = list_create();
 	if (student_list == NULL) {
-		fprintf(stderr, "核心故障：初始化基础数据结构驱动失败！\n");
+		fprintf(stderr, "核心故障: 初始化基础数据结构驱动失败！\n");
 		return 1;
 	}
 

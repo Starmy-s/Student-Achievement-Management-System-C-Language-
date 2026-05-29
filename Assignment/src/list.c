@@ -1,19 +1,19 @@
 /**
- * @brief Í¨ÓÃË«ÏòÁ´±íÇı¶¯¿âµÄÊµÏÖ
+ * @brief é€šç”¨åŒå‘é“¾è¡¨é©±åŠ¨åº“çš„å®ç°
  * @date 2026-05-28
  */
 
 #include "list.h"
 #include <stdlib.h>
 
-/*
-* @brief ³õÊ¼»¯²¢´´½¨Ò»¸ö¿ÕÁ´±í¿ØÖÆÍ·
-*/
+ /*
+ * @brief åˆå§‹åŒ–å¹¶åˆ›å»ºä¸€ä¸ªç©ºé“¾è¡¨æ§åˆ¶å¤´
+ */
 List* list_create() {
 	List* list = (List*)malloc(sizeof(List));
 	if (list == NULL) return NULL;
 
-	// ÉÚ±ø½Úµã
+	// å“¨å…µèŠ‚ç‚¹
 	list->head = (Node*)malloc(sizeof(Node));
 	list->tail = (Node*)malloc(sizeof(Node));
 	if (list->head == NULL || list->tail == NULL) {
@@ -35,7 +35,7 @@ List* list_create() {
 }
 
 /*
-* @brief ÔÚÁ´±íÄ©Î²×·¼Ó½Úµã
+* @brief åœ¨é“¾è¡¨æœ«å°¾è¿½åŠ èŠ‚ç‚¹
 */
 bool list_append(List* list, void* data) {
 	if (list == NULL) return false;
@@ -45,11 +45,11 @@ bool list_append(List* list, void* data) {
 	new_node->data = data;
 
 	Node* tail_prev = list->tail->prev;
-	// Ò»¶¨ÒªÏÈ¼ÓĞÂµÄÁ´£¬ÔÙ¸ÄÒÑÓĞµÄÁ´£¬ÏÈ¸ÄÃ»ÓÃµÄÁ´£¬ÔÙ¸ÄÓĞÓÃµÄÁ´
+	// ä¸€å®šè¦å…ˆåŠ æ–°çš„é“¾ï¼Œå†æ”¹å·²æœ‰çš„é“¾ï¼Œå…ˆæ”¹æ²¡ç”¨çš„é“¾ï¼Œå†æ”¹æœ‰ç”¨çš„é“¾
 	new_node->next = list->tail;
 	new_node->prev = tail_prev;
 	tail_prev->next = new_node;
-	//tail_prev = new_node; ÕâÃ´Ğ´²»¶Ô
+	//tail_prev = new_node; è¿™ä¹ˆå†™ä¸å¯¹
 	list->tail->prev = new_node;
 
 	list->size++;
@@ -57,15 +57,15 @@ bool list_append(List* list, void* data) {
 }
 
 /*
-* @brief ´ÓÁ´±íÖĞ°²È«µØÉ¾³ıÒ»¸öÖ¸¶¨µÄ½Úµã
+* @brief ä»é“¾è¡¨ä¸­å®‰å…¨åœ°åˆ é™¤ä¸€ä¸ªæŒ‡å®šçš„èŠ‚ç‚¹
 */
 bool list_delete(List* list, Node* node) {
-	// ±ğÉ¾ÉÚ±ø
+	// åˆ«åˆ å“¨å…µ
 	if (list == NULL || node == NULL || node == list->head || node == list->tail) {
 		return false;
 	}
 
-	// ¾ø¶Ô²»»á³öÏÖ×óÖµnode->prevÓënode->nextÎªNULLµÄ¿ÉÄÜ
+	// ç»å¯¹ä¸ä¼šå‡ºç°å·¦å€¼node->prevä¸node->nextä¸ºNULLçš„å¯èƒ½
 	node->prev->next = node->next;
 	node->next->prev = node->prev;
 
@@ -75,7 +75,7 @@ bool list_delete(List* list, Node* node) {
 }
 
 /*
-* Ïú»ÙÁ´±í
+* é”€æ¯é“¾è¡¨
 */
 void list_destory(List* list) {
 	if (list == NULL) return;

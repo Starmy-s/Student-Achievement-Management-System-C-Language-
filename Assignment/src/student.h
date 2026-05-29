@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @brief 学生成绩管理系统的核心数据结构
  * @date 2026-05-26
  */
@@ -10,13 +10,13 @@
 #define MAX_ID_LEN   20
 #define MAX_NAME_LEN 50
 
-/*
-* @brief 学科枚举类型
-* @field CHINESE 语文
-* @field MATH 数学
-* @field ENGLIFH 英语
-* @field SUBJECT_COUNT 科目数量
-*/
+ /*
+ * @brief 学科枚举类型
+ * @field CHINESE 语文
+ * @field MATH 数学
+ * @field ENGLIFH 英语
+ * @field SUBJECT_COUNT 科目数量
+ */
 enum Subjects {
 	CHINESE = 0,
 	MATH,
@@ -35,7 +35,7 @@ typedef struct {
 	char id[MAX_ID_LEN];
 	char name[MAX_NAME_LEN];
 	int scores[SUBJECT_COUNT];
-	
+
 } Student;
 
 // 学生信息业务逻辑函数声明，需要地址返回地址，不需要返回bool，一定成功不用返回

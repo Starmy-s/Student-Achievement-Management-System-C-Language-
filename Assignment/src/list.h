@@ -1,5 +1,5 @@
 /**
- * @brief Í¨ÓÃË«ÏòÁ´±íÇı¶¯¿â
+ * @brief é€šç”¨åŒå‘é“¾è¡¨é©±åŠ¨åº“
  * @date 2026-05-28
  */
 
@@ -8,9 +8,9 @@
 
 #include <stdbool.h>
 
-/*
-* @brief Á´±í½Úµã
-*/
+ /*
+ * @brief é“¾è¡¨èŠ‚ç‚¹
+ */
 typedef struct Node {
 	void* data;
 	struct Node* prev;
@@ -18,7 +18,7 @@ typedef struct Node {
 } Node;
 
 /*
-* @brief Á´±í¿ØÖÆÍ·
+* @brief é“¾è¡¨æ§åˆ¶å¤´
 */
 typedef struct List {
 	Node* head;
@@ -26,7 +26,7 @@ typedef struct List {
 	int size;
 } List;
 
-// Á´±í²Ù×÷º¯ÊıÉùÃ÷£¬ĞèÒªµØÖ··µ»ØµØÖ·£¬²»ĞèÒª·µ»Øbool£¬Ò»¶¨³É¹¦²»ÓÃ·µ»Ø
+// é“¾è¡¨æ“ä½œå‡½æ•°å£°æ˜ï¼Œéœ€è¦åœ°å€è¿”å›åœ°å€ï¼Œä¸éœ€è¦è¿”å›boolï¼Œä¸€å®šæˆåŠŸä¸ç”¨è¿”å›
 List* list_create();
 bool list_append(List* list, void* data);
 bool list_delete(List* list, Node* node);

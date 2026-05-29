@@ -1,5 +1,5 @@
 /**
- * @brief Ñ§Éú³É¼¨¹ÜÀíÏµÍ³µÄÒµÎñÂß¼­²ãÊµÏÖ
+ * @brief å­¦ç”Ÿæˆç»©ç®¡ç†ç³»ç»Ÿçš„ä¸šåŠ¡é€»è¾‘å±‚å®ç°
  * @date 2026-05-28
  */
 
@@ -16,11 +16,11 @@
 #include<string.h>
 #include<stdbool.h>
 
-/*
-* @brief ¸¨Öúº¯Êı£º¸ù¾İÑ§ºÅ²éÕÒ½Úµã
-*/
+ /*
+ * @brief è¾…åŠ©å‡½æ•°ï¼šæ ¹æ®å­¦å·æŸ¥æ‰¾èŠ‚ç‚¹
+ */
 static Node* find_student_node_by_id(List* list, const char* id) {
-	// ·ÀÓùÒ»ÏÂ
+	// é˜²å¾¡ä¸€ä¸‹
 	if (list == NULL || id == NULL) return NULL;
 
 	Node* current = list->head->next;
@@ -35,11 +35,11 @@ static Node* find_student_node_by_id(List* list, const char* id) {
 }
 
 /**
- * @brief ´òÓ¡µ¥¸öÑ§ÉúÊı¾İ
- * @param stu Ö¸ÏòĞèÒª´òÓ¡µÄÑ§Éú½á¹¹Ìå³£Á¿Ö¸Õë
+ * @brief æ‰“å°å•ä¸ªå­¦ç”Ÿæ•°æ®
+ * @param stu æŒ‡å‘éœ€è¦æ‰“å°çš„å­¦ç”Ÿç»“æ„ä½“å¸¸é‡æŒ‡é’ˆ
  */
 static void student_printf_single(const Student* stu) {
-	// ·ÀÓùÒ»ÏÂ
+	// é˜²å¾¡ä¸€ä¸‹
 	if (stu == NULL) return;
 
 	int total_score = 0;
@@ -47,31 +47,31 @@ static void student_printf_single(const Student* stu) {
 		total_score += stu->scores[i];
 	}
 
-	printf("| %-10s | %-10s | ÓïÎÄ: %-3d | ÊıÑ§: %-3d | Ó¢Óï: %-3d | ×Ü·Ö: %-3d |\n",
+	printf("| %-10s | %-10s | è¯­æ–‡: %-3d | æ•°å­¦: %-3d | è‹±è¯­: %-3d | æ€»åˆ†: %-3d |\n",
 		stu->id, stu->name,
 		stu->scores[CHINESE], stu->scores[MATH], stu->scores[ENGLISH],
 		total_score);
 }
 
 /*
-* @brief Ìí¼ÓĞÂÑ§Éú
-* @note ½á¹¹Ìå²ÎÊı½ÏÉÙ£¬Ö±½Ó´«²ÎÊı£¬²»´«½á¹¹Ìå£¬·½±ãµ÷ÓÃ£¬²»ÓÃ×Ô¼ºÆ´
+* @brief æ·»åŠ æ–°å­¦ç”Ÿ
+* @note ç»“æ„ä½“å‚æ•°è¾ƒå°‘ï¼Œç›´æ¥ä¼ å‚æ•°ï¼Œä¸ä¼ ç»“æ„ä½“ï¼Œæ–¹ä¾¿è°ƒç”¨ï¼Œä¸ç”¨è‡ªå·±æ‹¼
 */
 bool student_add(List* list, const char* id, const char* name, int scores[]) {
 	if (list == NULL || id == NULL || name == NULL) return false;
-	// Ñ§ºÅ²éÖØ
+	// å­¦å·æŸ¥é‡
 	if (find_student_node_by_id(list, id) != NULL) {
-		printf("Ìí¼ÓÊ§°Ü£ºÑ§ºÅ [%s] ÒÑ´æÔÚ£¡\n", id);
+		printf("æ·»åŠ å¤±è´¥ï¼šå­¦å· [%s] å·²å­˜åœ¨ï¼\n", id);
 		return false;
 	}
 
-	// ´ò°ü
+	// æ‰“åŒ…
 	Student* new_student = (Student*)malloc(sizeof(Student));
 	if (new_student == NULL) return false;
-	// ±£Ö¤²»»áÔ½½ç
-	// Ô­±¾Ğ´·¨£ºstrcpy(dest, src); »ò strncpy(new_student->name, name, MAX_NAME_LEN - 1);
-	// strncpy£ºÈç¹ûÍâ²¿ÊäÈëµÄ name ³¤¶È¸ÕºÃ´óÓÚ»òµÈÓÚ MAX_NAME_LEN - 1£¬ËüÔÚ¸´ÖÆÍê¹æ¶¨µÄ×Ö½ÚÊıºó£¬ÊÇ²»»áÔÚÄ©Î²×Ô¶¯²¹ \0 µÄ
-	// snprintf »á×Ô¶¯ËãºÃ¿Õ¼ä¡¢½Ø¶Ï£¬²¢ÇÒ¡¾100% ×Ô¶¯ÔÚÄ©Î²²¹ '\0'¡¿£¬Ö»ĞèÒª¸æËßËüÄÚ´æµÄ×Ü´óĞ¡ÊÇ¶àÉÙ£¬Ëü»á×Ô¼ºÁô³ö \0
+	// ä¿è¯ä¸ä¼šè¶Šç•Œ
+	// åŸæœ¬å†™æ³•ï¼šstrcpy(dest, src); æˆ– strncpy(new_student->name, name, MAX_NAME_LEN - 1);
+	// strncpyï¼šå¦‚æœå¤–éƒ¨è¾“å…¥çš„ name é•¿åº¦åˆšå¥½å¤§äºæˆ–ç­‰äº MAX_NAME_LEN - 1ï¼Œå®ƒåœ¨å¤åˆ¶å®Œè§„å®šçš„å­—èŠ‚æ•°åï¼Œæ˜¯ä¸ä¼šåœ¨æœ«å°¾è‡ªåŠ¨è¡¥ \0 çš„
+	// snprintf ä¼šè‡ªåŠ¨ç®—å¥½ç©ºé—´ã€æˆªæ–­ï¼Œå¹¶ä¸”ã€100% è‡ªåŠ¨åœ¨æœ«å°¾è¡¥ '\0'ã€‘ï¼Œåªéœ€è¦å‘Šè¯‰å®ƒå†…å­˜çš„æ€»å¤§å°æ˜¯å¤šå°‘ï¼Œå®ƒä¼šè‡ªå·±ç•™å‡º \0
 	snprintf(new_student->id, MAX_ID_LEN, "%s", id);
 	snprintf(new_student->name, MAX_NAME_LEN, "%s", name);
 	for (int i = 0; i < SUBJECT_COUNT; i++) {
@@ -85,44 +85,44 @@ bool student_add(List* list, const char* id, const char* name, int scores[]) {
 }
 
 /*
-* @brief ¸ù¾İÑ§ºÅ²éÑ¯Ñ§ÉúĞÅÏ¢²¢´òÓ¡
+* @brief æ ¹æ®å­¦å·æŸ¥è¯¢å­¦ç”Ÿä¿¡æ¯å¹¶æ‰“å°
 */
 bool student_query_by_id(List* list, const char* id) {
 	Node* target_node = find_student_node_by_id(list, id);
 	if (target_node == NULL) {
-		printf("²éÑ¯Ê§°Ü£ºÎ´ÕÒµ½Ñ§ºÅÎª [%s] µÄÑ§Éú£¡\n", id);
+		printf("æŸ¥è¯¢å¤±è´¥ï¼šæœªæ‰¾åˆ°å­¦å·ä¸º [%s] çš„å­¦ç”Ÿï¼\n", id);
 		return false;
 	}
-	
+
 	Student* student = (Student*)target_node->data;
 	student_printf_single(student);
 	return true;
 }
 
 /*
-* @brief ¸ù¾İÑ§ºÅÉ¾³ıÑ§Éú
+* @brief æ ¹æ®å­¦å·åˆ é™¤å­¦ç”Ÿ
 */
 bool student_delete_by_id(List* list, const char* id) {
 	Node* target_node = find_student_node_by_id(list, id);
 	if (target_node == NULL) {
-		printf("É¾³ıÊ§°Ü£ºÎ´ÕÒµ½Ñ§ºÅÎª [%s] µÄÑ§Éú£¡\n", id);
+		printf("åˆ é™¤å¤±è´¥ï¼šæœªæ‰¾åˆ°å­¦å·ä¸º [%s] çš„å­¦ç”Ÿï¼\n", id);
 		return false;
 	}
-	// ±ğÍüÁË°Ñ½á¹¹ÌåÀïµÄ½á¹¹ÌåÖ¸ÕëËùÖ¸µÄ½á¹¹ÌåÊÍ·Å£¬Òª²»È»¾ÍÊÇÀ¬»øÊı¾İÁË
+	// åˆ«å¿˜äº†æŠŠç»“æ„ä½“é‡Œçš„ç»“æ„ä½“æŒ‡é’ˆæ‰€æŒ‡çš„ç»“æ„ä½“é‡Šæ”¾ï¼Œè¦ä¸ç„¶å°±æ˜¯åƒåœ¾æ•°æ®äº†
 	free(target_node->data);
 	return list_delete(list, target_node);
 }
 
 /*
-* @brief ¸ù¾İĞÕÃû²éÕÒ²¢´òÓ¡ËùÓĞÆ¥ÅäµÄÑ§Éú
+* @brief æ ¹æ®å§“åæŸ¥æ‰¾å¹¶æ‰“å°æ‰€æœ‰åŒ¹é…çš„å­¦ç”Ÿ
 */
 int student_query_by_name(List* list, const char* name) {
-	// Õâ¿é²»ÌØÅĞÃ»ÓĞÊı¾İ£¬ÎªÁË¸ñÊ½ºÍÏÂÃæÍ³Ò»
+	// è¿™å—ä¸ç‰¹åˆ¤æ²¡æœ‰æ•°æ®ï¼Œä¸ºäº†æ ¼å¼å’Œä¸‹é¢ç»Ÿä¸€
 	if (list == NULL || name == NULL) return 0;
 
 	int match_count = 0;
 	Node* current = list->head->next;
-	printf("\n--- ¿ªÊ¼°´ĞÕÃû [%s] ËÑË÷ ---\n", name);
+	printf("\n--- å¼€å§‹æŒ‰å§“å [%s] æœç´¢ ---\n", name);
 
 	while (current != list->tail) {
 		Student* student = (Student*)current->data;
@@ -135,23 +135,23 @@ int student_query_by_name(List* list, const char* name) {
 	}
 
 	if (match_count == 0) {
-		printf("ÌáÊ¾£ºÎ´ÕÒµ½ÈÎºÎĞÕÃûÆ¥ÅäÎª [%s] µÄÑ§Éú¡£\n", name);
+		printf("æç¤ºï¼šæœªæ‰¾åˆ°ä»»ä½•å§“ååŒ¹é…ä¸º [%s] çš„å­¦ç”Ÿã€‚\n", name);
 	}
 	else {
-		printf("ËÑË÷Íê±Ï£¬¹²ÕÒµ½ %d ÃûÑ§Éú¡£\n", match_count);
+		printf("æœç´¢å®Œæ¯•ï¼Œå…±æ‰¾åˆ° %d åå­¦ç”Ÿã€‚\n", match_count);
 	}
 
 	return match_count;
 }
 
 /*
-* @brief ¸ù¾İĞÕÃûÉ¾³ıËùÓĞÆ¥ÅäÑ§Éú
+* @brief æ ¹æ®å§“ååˆ é™¤æ‰€æœ‰åŒ¹é…å­¦ç”Ÿ
 */
 int student_delete_by_name(List* list, const char* name) {
 	if (list == NULL || name == NULL || list->size == 0) return 0;
 
 	int delete_count = 0;
-	
+
 	Node* current = list->head->next;
 	while (current != list->tail) {
 		Node* next_node = current->next;
@@ -167,27 +167,27 @@ int student_delete_by_name(List* list, const char* name) {
 	}
 
 	if (delete_count > 0) {
-		printf("³É¹¦£ºÒÑ´ÓÏµÍ³ÖĞÅúÁ¿É¾³ı %d ÃûĞÕÃûÎª [%s] µÄÑ§Éú¡£\n", delete_count, name);
+		printf("æˆåŠŸï¼šå·²ä»ç³»ç»Ÿä¸­æ‰¹é‡åˆ é™¤ %d åå§“åä¸º [%s] çš„å­¦ç”Ÿã€‚\n", delete_count, name);
 	}
 	else {
-		printf("ÌáÊ¾£ºÎ´ÕÒµ½ĞÕÃûÆ¥ÅäÎª [%s] µÄÑ§Éú£¬ÎŞÊı¾İ±»É¾³ı¡£\n", name);
+		printf("æç¤ºï¼šæœªæ‰¾åˆ°å§“ååŒ¹é…ä¸º [%s] çš„å­¦ç”Ÿï¼Œæ— æ•°æ®è¢«åˆ é™¤ã€‚\n", name);
 	}
 
 	return delete_count;
 }
 
 /*
-* @brief ´òÓ¡ËùÓĞÑ§ÉúµÄ³É¼¨
+* @brief æ‰“å°æ‰€æœ‰å­¦ç”Ÿçš„æˆç»©
 */
 void student_print_all(List* list) {
 	if (list == NULL || list->size == 0) {
-		printf("ÏµÍ³ÌáÊ¾£ºµ±Ç°Ã»ÓĞÈÎºÎÑ§ÉúÊı¾İ\n");
+		printf("ç³»ç»Ÿæç¤ºï¼šå½“å‰æ²¡æœ‰ä»»ä½•å­¦ç”Ÿæ•°æ®\n");
 		return;
 	}
 
-	printf("\n¡¾Ñ§Éú³É¼¨×Ü±í¡¿(×ÜÈËÊı: %d)\n", list->size);
+	printf("\nã€å­¦ç”Ÿæˆç»©æ€»è¡¨ã€‘(æ€»äººæ•°: %d)\n", list->size);
 	printf("--------------------------------------------------\n");
-	printf("%-12s\t%-12s\t%-6s\t%-6s\t%-6s\t%-6s\n", "Ñ§ºÅ", "ĞÕÃû", "ÓïÎÄ", "ÊıÑ§", "Ó¢Óï","×Ü·Ö");
+	printf("%-12s\t%-12s\t%-6s\t%-6s\t%-6s\t%-6s\n", "å­¦å·", "å§“å", "è¯­æ–‡", "æ•°å­¦", "è‹±è¯­", "æ€»åˆ†");
 	printf("--------------------------------------------------\n");
 
 	Node* current = list->head->next;
@@ -200,8 +200,8 @@ void student_print_all(List* list) {
 }
 
 /*
-* @brief ÊÍ·ÅËùÓĞÑ§Éú³É¼¨½á¹¹Ìå
-* @note ÊÍ·ÅÁ´±íÇ°±Ø×ö
+* @brief é‡Šæ”¾æ‰€æœ‰å­¦ç”Ÿæˆç»©ç»“æ„ä½“
+* @note é‡Šæ”¾é“¾è¡¨å‰å¿…åš
 */
 void student_clear_all_data(List* list) {
 	if (list == NULL) return;
@@ -210,7 +210,7 @@ void student_clear_all_data(List* list) {
 	Node* current = list->head->next;
 	while (current != list->tail) {
 		next_node = current->next;
-		// ÔõÃ´ÖªµÀÊÍ·Å¶à´óµÄÄØ£¿ÊÇ²Ù×÷ÏµÍ³ºÍ malloc/free ÕâÒ»¶Ô´îµµÔÚµ×²ãÍ¨¹ı¡°°µºÅ¡±Ä¬Ä¬Íê³ÉµÄ
+		// æ€ä¹ˆçŸ¥é“é‡Šæ”¾å¤šå¤§çš„å‘¢ï¼Ÿæ˜¯æ“ä½œç³»ç»Ÿå’Œ malloc/free è¿™ä¸€å¯¹æ­æ¡£åœ¨åº•å±‚é€šè¿‡â€œæš—å·â€é»˜é»˜å®Œæˆçš„
 		free(current->data);
 		list_delete(list, current);
 		current = next_node;
